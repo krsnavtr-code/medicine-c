@@ -8,98 +8,149 @@ const PrivacyPage = () => {
         <h1 className="text-3xl font-bold p-4">Privacy Policy</h1>
         <p className="text-gray-600 p-4">Last updated: October 13, 2025</p>
 
+        {/* INTRODUCTION */}
         <section className="p-4">
           <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
           <p className="mb-4">
-            At Profacenal, we respect your privacy and are committed to protecting your personal data. This privacy policy will inform you about how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.
+            At Profacenal, we respect your privacy and are committed to
+            protecting your personal data. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your information when you
+            visit our website.
           </p>
         </section>
 
+        {/* INFORMATION WE COLLECT */}
         <section className="mb-8 bg-[var(--container-color-in)] p-4 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">2. Information We Collect</h2>
-          <p className="mb-4">We may collect, use, store, and transfer different kinds of personal data about you, which we have grouped together as follows:</p>
+          <h2 className="text-2xl font-semibold mb-4">
+            2. Information We Collect
+          </h2>
+          <p className="mb-4">
+            We may collect, use, store, and process different kinds of personal
+            data, including:
+          </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li><strong>Identity Data</strong> includes first name, last name, username, or similar identifier.</li>
-            <li><strong>Contact Data</strong> includes email address and telephone numbers.</li>
-            <li><strong>Technical Data</strong> includes internet protocol (IP) address, browser type and version, time zone setting and location, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.</li>
-            <li><strong>Usage Data</strong> includes information about how you use our website and services.</li>
-            <li><strong>Marketing and Communications Data</strong> includes your preferences in receiving marketing from us and our third parties and your communication preferences.</li>
+            <li>
+              <strong>Identity Data</strong> — name, username, etc.
+            </li>
+            <li>
+              <strong>Contact Data</strong> — email address, phone number.
+            </li>
+            <li>
+              <strong>Technical Data</strong> — IP address, browser details,
+              time zone, device information.
+            </li>
+            <li>
+              <strong>Usage Data</strong> — how you use our website and
+              services.
+            </li>
+            <li>
+              <strong>Marketing Data</strong> — preferences and communication
+              choices.
+            </li>
           </ul>
         </section>
 
+        {/* HOW WE USE DATA */}
         <section className="mb-8 p-4">
-          <h2 className="text-2xl font-semibold mb-4">3. How We Use Your Data</h2>
-          <p className="mb-4">We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:</p>
+          <h2 className="text-2xl font-semibold mb-4">
+            3. How We Use Your Data
+          </h2>
+          <p className="mb-4">
+            We use your information only when allowed by law, including:
+          </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>To provide and maintain our service</li>
-            <li>To notify you about changes to our service</li>
-            <li>To allow you to participate in interactive features of our service</li>
-            <li>To provide customer support</li>
-            <li>To gather analysis or valuable information so that we can improve our service</li>
-            <li>To monitor the usage of our service</li>
-            <li>To detect, prevent and address technical issues</li>
+            <li>Providing and maintaining the service</li>
+            <li>Notifying you about changes</li>
+            <li>Allowing participation in site features</li>
+            <li>Customer support</li>
+            <li>Improving website performance</li>
+            <li>Monitoring usage</li>
+            <li>Detecting and preventing technical issues</li>
           </ul>
         </section>
 
+        {/* DATA SECURITY */}
         <section className="mb-8 bg-[var(--container-color-in)] p-4 rounded-lg">
           <h2 className="text-2xl font-semibold mb-4">4. Data Security</h2>
           <p className="mb-4">
-            We have implemented appropriate security measures to prevent your personal data from being accidentally lost, used, or accessed in an unauthorized way, altered, or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors, and other third parties who have a business need to know.
+            We implement strict security measures to prevent your personal data
+            from unauthorized access, alteration, or loss. Access to your data
+            is limited to authorized personnel only.
           </p>
         </section>
 
+        {/* RETENTION */}
         <section className="mb-8 p-4">
           <h2 className="text-2xl font-semibold mb-4">5. Data Retention</h2>
           <p>
-            We will only retain your personal data for as long as necessary to fulfill the purposes we collected it for, including for the purposes of satisfying any legal, accounting, or reporting requirements. To determine the appropriate retention period for personal data, we consider the amount, nature, and sensitivity of the personal data, the potential risk of harm from unauthorized use or disclosure, the purposes for which we process your personal data, and whether we can achieve those purposes through other means.
+            We retain your personal data only as long as necessary for legal,
+            operational, and reporting purposes. Retention duration depends on
+            the nature and sensitivity of the data.
           </p>
         </section>
 
+        {/* RIGHTS */}
         <section className="mb-8 bg-[var(--container-color-in)] p-4 rounded-lg">
           <h2 className="text-2xl font-semibold mb-4">6. Your Legal Rights</h2>
-          <p className="mb-4">Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to:</p>
+          <p className="mb-4">
+            You have rights under data protection laws, including the right to:
+          </p>
           <ul className="list-disc pl-6 mb-4 space-y-2">
-            <li>Request access to your personal data</li>
-            <li>Request correction of your personal data</li>
-            <li>Request erasure of your personal data</li>
-            <li>Object to processing of your personal data</li>
-            <li>Request restriction of processing your personal data</li>
-            <li>Request transfer of your personal data</li>
-            <li>Right to withdraw consent</li>
+            <li>Request access</li>
+            <li>Request correction</li>
+            <li>Request deletion</li>
+            <li>Object to processing</li>
+            <li>Restrict processing</li>
+            <li>Request data transfer</li>
+            <li>Withdraw consent</li>
           </ul>
         </section>
 
+        {/* THIRD-PARTY LINKS */}
         <section className="mb-8 p-4">
           <h2 className="text-2xl font-semibold mb-4">7. Third-Party Links</h2>
           <p className="mb-4">
-            Our website may include links to third-party websites, plug-ins, and applications. Clicking on those links or enabling those connections may allow third parties to collect or share data about you. We do not control these third-party websites and are not responsible for their privacy statements. When you leave our website, we encourage you to read the privacy policy of every website you visit.
+            Our website may contain links to third-party sites. These websites
+            have their own privacy policies, and we are not responsible for
+            their content or practices. Please review their policies before use.
           </p>
         </section>
 
+        {/* CHANGES */}
         <section className="mb-8 bg-[var(--container-color-in)] p-4 rounded-lg">
-          <h2 className="text-2xl font-semibold mb-4">8. Changes to This Privacy Policy</h2>
+          <h2 className="text-2xl font-semibold mb-4">
+            8. Changes to This Privacy Policy
+          </h2>
           <p>
-            We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date at the top of this Privacy Policy. You are advised to review this Privacy Policy periodically for any changes.
+            We may update this Privacy Policy from time to time. Updates will be
+            posted on this page with a revised “Last updated” date.
           </p>
         </section>
 
+        {/* CONTACT */}
         <section className="mt-12 pt-6 border-t border-gray-200 p-4">
           <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
           <p className="mb-2">
-            If you have any questions about this Privacy Policy, please contact us at:
+            For any questions or concerns regarding this Privacy Policy, contact
+            us at:
           </p>
+
           <p className="mb-2">
             Email:{" "}
             <a
-              href="mailto:krishna.trivixa@zohomail.in"
+              href="mailto:demo.demo.com"
               className="text-blue-600 font-bold hover:underline"
             >
-              krishna.trivixa@zohomail.in
+              demo.demo.com
             </a>
           </p>
+
           <p>
-            Or through our{" "}
-            <Link href="/contact" className="text-blue-600 font-bold hover:underline">
+            Or visit our{" "}
+            <Link
+              href="/contact"
+              className="text-blue-600 font-bold hover:underline"
+            >
               contact page
             </Link>
             .

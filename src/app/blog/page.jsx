@@ -141,8 +141,8 @@ export default function BlogPage() {
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Blog</h1>
             <p className="text-lg max-w-2xl mx-auto">
-              Explore our latest articles, tutorials, and insights on web
-              development, design, and technology.
+              Explore health tips, medicine guides, wellness articles, and
+              expert insights to help you stay informed and healthy.
             </p>
           </div>
 

@@ -42,12 +42,12 @@ export default function DashboardContent() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-200">
+    <div className="min-h-screen">
       <div className="max-w-7xl py-4 mx-auto">
-        <div className="bg-white shadow rounded-lg p-2 relative">
+        <div className="bg-[var(--container-color-in)] shadow rounded-lg p-2 relative">
           {/* Header */}
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 text-center sm:text-left">
+            <h1 className="text-xl sm:text-2xl font-bold text-center sm:text-left">
               Welcome, {user.name}!
             </h1>
 
@@ -60,13 +60,13 @@ export default function DashboardContent() {
           </div>
 
           {/* Tabs */}
-          <div className="relative border-b border-gray-200 mb-6">
+          <div className="relative border-b border-[var(--border-color)] mb-6">
             {/* Left scroll button */}
             <button
               onClick={() => scroll("left")}
-              className="md:hidden absolute left-[-10px] top-1/2 -translate-y-1/2 bg-transparent shadow-md rounded-full p-1 z-10  sm:flex hover:bg-gray-100"
+              className="md:hidden absolute left-[-10px] top-1/2 -translate-y-1/2 shadow-md rounded-full p-1 z-10  sm:flex cursor-pointer bg-[var(--container-color)]"
             >
-              <ChevronLeft className="w-5 h-5 text-gray-700" />
+              <ChevronLeft className="w-5 h-5 text-[var(--text-color)]" />
             </button>
 
             {/* Tabs container */}
@@ -93,9 +93,9 @@ export default function DashboardContent() {
             {/* Right scroll button */}
             <button
               onClick={() => scroll("right")}
-              className="md:hidden absolute right-[-10px] top-1/2 -translate-y-1/2 bg-transparent shadow-md rounded-full p-1 z-10 sm:flex hover:bg-gray-100"
+              className="md:hidden absolute right-[-10px] top-1/2 -translate-y-1/2 bg-[var(--container-color)] shadow-md rounded-full p-1 z-10 sm:flex cursor-pointer"
             >
-              <ChevronRight className="w-5 h-5 text-gray-700" />
+              <ChevronRight className="w-5 h-5 text-[var(--text-color)]" />
             </button>
           </div>
 

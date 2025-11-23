@@ -230,7 +230,7 @@ const Contact = () => {
             </svg>
           </div>
           <h3 className="text-lg font-medium mb-1">Email</h3>
-          <p className="">krishna.trivixa@zohomail.in</p>
+          <p className="">demo.demo.com</p>
         </div>
 
         <div className="p-6 bg-[var(--container-color-in)] text-[var(--text-color)] rounded-lg shadow-md">

@@ -8,13 +8,13 @@ import { useEffect, useState } from "react";
 const Banner = () => {
   const [user, setUser] = useState({
     image: "/avatar.png",
-    role: "Software Engineer – Web Development",
+    role: "Medicine Seller",
     name: "Krishna Avtar",
-    description: "Making The Impossible Possible. Using 1's and 0's.",
-    sortDescription: "Problem solving is what makes me unique.",
-    experience: "2.5",
-    projects: "203",
-    cvPdf: "/resume.pdf",
+    description: "Medicine Selling Platform",
+    sortDescription: "Medicine Selling Platform",
+    experience: "",
+    projects: "",
+    cvPdf: "",
   });
   const [isLoading, setIsLoading] = useState(true);
 

@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "My Portfolio | Web Developer",
-  description: "Welcome to my personal portfolio showcasing my projects and skills as a web developer",
-  keywords: ["portfolio", "web development", "developer", "projects"],
+  title: "Medicine",
+  description: "Medicine Selling Platform",
+  keywords: ["medicine", "selling", "platform", "medicine selling", "medicine platform"],
   author: "Krishna Avtar",
 };
 
