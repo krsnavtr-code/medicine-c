@@ -42,7 +42,7 @@ function Navbar() {
     { name: "Admin", path: "/admin", hidden: !isAdmin },
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Store", path: "/projects" },
+    { name: "Store", path: "/store" },
     { name: "Health Packages", path: "/skills" },
     { name: "Contact", path: "/contact" },
   ];
