@@ -1,8 +1,8 @@
 import LoginForm from '@/components/auth/LoginForm';
 
 export const metadata = {
-  title: 'Sign In - My Portfolio',
-  description: 'Sign in to access your portfolio dashboard',
+  title: 'Sign In - Medicin',
+  description: 'Sign in to access your Medicin dashboard',
 };
 
 export default function LoginPage() {
