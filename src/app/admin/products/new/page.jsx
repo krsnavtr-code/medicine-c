@@ -30,7 +30,7 @@ export default function AddProductPage() {
       setLoading(true);
       const response = await productAPI.createProduct(productData);
       toast.success("Product created successfully!");
-      router.push(`/admin/products/${response.data._id}/edit`);
+      router.push(`/admin/products`);
     } catch (error) {
       console.error("Error creating product:", error);
       toast.error(error.response?.data?.message || "Failed to create product");

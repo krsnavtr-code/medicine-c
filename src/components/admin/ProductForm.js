@@ -277,9 +277,9 @@ const ProductForm = ({ product: initialProduct }) => {
         result = await productAPI.createProduct(productData);
         setSuccess('Product created successfully!');
         
-        // Redirect to edit page for the new product
+        // Redirect to products page
         setTimeout(() => {
-          router.push(`/admin/products/${result.data._id}/edit`);
+          router.push(`/admin/products`);
         }, 1500);
       }
       
@@ -410,13 +410,12 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium ">
-                Description *
+                Description
               </label>
               <textarea
                 id="description"
                 name="description"
                 rows={3}
-                required
                 value={formData.description}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -426,12 +425,11 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div className="sm:col-span-2">
               <label htmlFor="brand" className="block text-sm font-medium ">
-                Product Brand *
+                Product Brand 
               </label>
               <select
                 id="brand"
                 name="brand"
-                required
                 value={formData.brand}
                 onChange={handleChange}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -447,12 +445,11 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div>
               <label htmlFor="category" className="block text-sm font-medium ">
-                Category *
+                Category 
               </label>
               <select
                 id="category"
                 name="category"
-                required
                 value={formData.category}
                 onChange={handleChange}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -473,7 +470,6 @@ const ProductForm = ({ product: initialProduct }) => {
               <select
                 id="subCategory"
                 name="subCategory"
-                required
                 value={formData.subCategory}
                 onChange={handleChange}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
@@ -495,7 +491,7 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div>
               <label htmlFor="mrp" className="block text-sm font-medium ">
-                MRP (Maximum Retail Price) *
+                MRP (Maximum Retail Price)
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -507,7 +503,6 @@ const ProductForm = ({ product: initialProduct }) => {
                   id="mrp"
                   min="0"
                   step="0.01"
-                  required
                   value={formData.mrp}
                   onChange={handleChange}
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md bg-[var(--container-color)]"
@@ -518,7 +513,7 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div>
               <label htmlFor="price" className="block text-sm font-medium ">
-                Selling Price *
+                Selling Price
               </label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -530,7 +525,6 @@ const ProductForm = ({ product: initialProduct }) => {
                   id="price"
                   min="0"
                   step="0.01"
-                  required
                   value={formData.price}
                   onChange={handleChange}
                   className="focus:ring-indigo-500 focus:border-indigo-500 block w-full py-2 pl-7 pr-12 sm:text-sm border-gray-300 rounded-md bg-[var(--container-color)]"
@@ -546,14 +540,13 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div>
               <label htmlFor="stock" className="block text-sm font-medium ">
-                Stock (storage) *
+                Stock (storage)
               </label>
               <input
                 type="number"
                 name="stock"
                 id="stock"
                 min="0"
-                required
                 value={formData.stock}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -562,13 +555,12 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div className="">
               <label htmlFor="name" className="block text-sm font-medium ">
-                Product storage Info *
+                Product storage Info
               </label>
               <input
                 type="text"
                 name="storageInfo"
                 id="storageInfo"
-                required
                 value={formData.storageInfo}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -788,13 +780,12 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium ">
-                Product Safety Information *
+                Product Safety Information
               </label>
               <textarea
                 id="safetyInformation"
                 name="safetyInformation"
                 rows={3}
-                required
                 value={formData.safetyInformation}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -804,13 +795,12 @@ const ProductForm = ({ product: initialProduct }) => {
 
             <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium ">
-                howToUse Guide *
+                howToUse Guide
               </label>
               <textarea
                 id="howToUse"
                 name="howToUse"
                 rows={3}
-                required
                 value={formData.howToUse}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
