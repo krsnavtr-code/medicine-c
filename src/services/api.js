@@ -206,7 +206,10 @@ async function handleResponse(response) {
   return text;
 }
 
-export default {
+// Export all APIs as a named export
+const api = {
   auth: authAPI,
   product: productAPI
 };
+
+export default api;

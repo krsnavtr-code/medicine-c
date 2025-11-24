@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { productAPI } from '@/services/api';
 import { PRODUCT_BRANDS, PRODUCT_CATEGORIES, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES } from '@/config/productConfig';
 
@@ -74,10 +75,11 @@ const ProductForm = ({ product: initialProduct }) => {
         productData.expiryDate = date.toISOString().split('T')[0];
       }
       
-      setFormData({
-        ...formData,
+      // Use functional update to avoid dependency on formData
+      setFormData(prevFormData => ({
+        ...prevFormData,
         ...productData
-      });
+      }));
       
       if (initialProduct.images) {
         setImages(initialProduct.images);
@@ -594,11 +596,15 @@ const ProductForm = ({ product: initialProduct }) => {
               <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
                 {images.map((image, index) => (
                   <div key={index} className="relative group">
-                    <img
-                      src={image.url}
-                      alt={`Product ${index + 1}`}
-                      className="w-full h-32 object-cover rounded-lg"
-                    />
+                    <div className="relative w-full h-32">
+                      <Image
+                        src={image.url}
+                        alt={`Product ${index + 1}`}
+                        fill
+                        className="object-cover rounded-lg"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </div>
                     <button
                       type="button"
                       onClick={() => removeImage(index)}

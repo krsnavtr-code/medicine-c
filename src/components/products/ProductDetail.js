@@ -196,7 +196,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                   <div className="ml-3">
                     <h3 className="text-sm font-medium text-yellow-800">Prescription Required</h3>
                     <div className="mt-2 text-sm text-yellow-700">
-                      <p>This product requires a valid prescription. You'll need to upload your prescription before checkout.</p>
+                      <p>This product requires a valid prescription. You&apos;ll need to upload your prescription before checkout.</p>
                     </div>
                   </div>
                 </div>
