@@ -109,6 +109,104 @@ export const authAPI = {
   }
 };
 
+// Product API
+export const productAPI = {
+  // Get all products with optional query parameters
+  getProducts: (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return fetchAPI(`/products?${queryString}`);
+  },
+
+  // Get single product by ID or slug
+  getProduct: (idOrSlug) => {
+    return fetchAPI(`/products/${idOrSlug}`);
+  },
+
+  // Create a new product
+  createProduct: (productData) => {
+    return fetchAPI('/products', 'POST', productData);
+  },
+
+  // Update a product
+  updateProduct: (id, productData) => {
+    return fetchAPI(`/products/${id}`, 'PUT', productData);
+  },
+
+  // Delete a product (soft delete)
+  deleteProduct: (id) => {
+    return fetchAPI(`/products/${id}`, 'DELETE');
+  },
+
+  // Upload product image
+  uploadProductImage: (id, file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    // Override the default fetch options for file upload
+    const url = `${API_BASE_URL}/api/v1/products/${id}/photo`;
+    const token = getCookie('jwt');
+
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': token ? `Bearer ${token}` : '',
+      },
+      credentials: 'include',
+      body: formData,
+    }).then(handleResponse);
+  },
+
+  // Get products by category
+  getProductsByCategory: (category) => {
+    return fetchAPI(`/products/category/${encodeURIComponent(category)}`);
+  },
+
+  // Get featured products
+  getFeaturedProducts: () => {
+    return fetchAPI('/products/featured');
+  },
+
+  // Search products
+  searchProducts: (query) => {
+    return fetchAPI(`/products/search?q=${encodeURIComponent(query)}`);
+  },
+
+  // Get product categories
+  getCategories: () => {
+    return fetchAPI('/products/categories');
+  }
+};
+
+// Helper function to handle response
+async function handleResponse(response) {
+  const contentType = response.headers.get('content-type');
+
+  if (response.status === 204) {
+    return null;
+  }
+
+  if (contentType && contentType.includes('application/json')) {
+    const data = await response.json();
+
+    if (!response.ok) {
+      const error = new Error(data.message || 'Something went wrong');
+      error.status = response.status;
+      error.data = data;
+      throw error;
+    }
+
+    return data;
+  }
+
+  const text = await response.text();
+  if (!response.ok) {
+    throw new Error(text || 'Something went wrong');
+  }
+
+  return text;
+}
+
 export default {
-  auth: authAPI
+  auth: authAPI,
+  product: productAPI
 };
