@@ -42,7 +42,7 @@ function Navbar() {
     { name: "Admin", path: "/admin", hidden: !isAdmin },
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Store", path: "/store" },
+    { name: "Store", path: "/products" },
     { name: "Health Packages", path: "/skills" },
     { name: "Contact", path: "/contact" },
   ];
@@ -67,13 +67,14 @@ function Navbar() {
       <div className="container mx-auto py-2 px-2">
         <div className="flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-gray-800">
-            <Image
+            {/* <Image
               src={Logo}
               alt="Logo"
               width={70}
               height={70}
               className="rounded-sm"
-            />
+            /> */}
+            Ayush Aushadhi
           </Link>
 
           {/* Desktop Navigation */}
