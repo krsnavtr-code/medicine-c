@@ -1,8 +1,17 @@
 import "./globals.css";
+import { Montserrat } from 'next/font/google';
 import LayoutWrapper from "@/components/LayoutWrapper";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Toaster } from 'react-hot-toast';
+
+// Load the Montserrat font with the desired weights and subsets
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-montserrat',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900']
+});
 
 export const metadata = {
   title: "Medicine",
@@ -14,8 +23,8 @@ export const metadata = {
 // This is a server component that wraps the client LayoutWrapper
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="antialiased bg-bg text-text transition-colors duration-200 min-h-screen" suppressHydrationWarning>
+    <html lang="en" className={`${montserrat.variable}`}>
+      <body className="antialiased bg-bg text-text transition-colors duration-200 min-h-screen font-sans" suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
             <LayoutWrapper>{children}</LayoutWrapper>
