@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { productAPI } from '@/services/api';
-import { PRODUCT_BRANDS, PRODUCT_CATEGORIES, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES } from '@/config/productConfig';
+import { PRODUCT_BRANDS, PRODUCT_CATEGORIES, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES, USE_FOR_GENDER } from '@/config/productConfig';
 
 const ProductForm = ({ product: initialProduct }) => {
   const router = useRouter();
@@ -34,6 +34,7 @@ const ProductForm = ({ product: initialProduct }) => {
     storageInfo: '',
     safetyInformation: '',
     howToUse: '',
+    useFor: '',
     benefits: [],
     sideEffects: [],
     isFeatured: false,
@@ -309,6 +310,7 @@ const ProductForm = ({ product: initialProduct }) => {
           storageInfo: '',
           safetyInformation: '',
           howToUse: '',
+          useFor: '',
           benefits: [],
           sideEffects: [],
           isFeatured: false,
@@ -334,6 +336,7 @@ const ProductForm = ({ product: initialProduct }) => {
   const units = PRODUCT_UNITS;
   const dosageForms = PRODUCT_DOSAGE_FORMS;
   const productTypes = PRODUCT_TYPES;
+  const useFor = USE_FOR_GENDER;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -440,6 +443,26 @@ const ProductForm = ({ product: initialProduct }) => {
                 {brand.map((brand) => (
                   <option key={brand} value={brand}>
                     {brand}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="brand" className="block text-sm font-medium ">
+                Use For (Gender)
+              </label>
+              <select
+                id="useFor"
+                name="useFor"
+                value={formData.useFor}
+                onChange={handleChange}
+                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+              >
+                <option value="">Select Gender</option>
+                {useFor.map((gender) => (
+                  <option key={gender} value={gender}>
+                    {gender}
                   </option>
                 ))}
               </select>

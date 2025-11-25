@@ -64,3 +64,9 @@ export const PRODUCT_DOSAGE_FORMS = [
     'Ointment', 'Cream', 'Gel', 'Spray', 'Powder',
     'Suspension', 'Lotion', 'Solution', 'Suppository', 'Others'
   ];
+
+export const USE_FOR_GENDER = [
+  "Male",
+  "Female",
+  "Both (Male & Female)",
+];
