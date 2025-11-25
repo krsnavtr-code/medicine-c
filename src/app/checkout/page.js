@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -261,10 +262,12 @@ export default function CheckoutPage() {
                                 <div key={item.product._id} className="flex justify-between items-center">
                                     <div className="flex items-center space-x-4">
                                         <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden">
-                                            <img
+                                            <Image
                                                 src={item.product.images?.[0] || '/placeholder-product.jpg'}
                                                 alt={item.product.name}
-                                                className="w-full h-full object-cover"
+                                                width={64}
+                                                height={64}
+                                                className="object-cover"
                                             />
                                         </div>
                                         <div>

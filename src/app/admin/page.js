@@ -32,7 +32,7 @@ export default function AdminDashboard() {
     };
 
     fetchStats();
-  }, []);
+  }, [API_URL]);
 
   if (loading) {
     return (

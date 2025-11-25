@@ -29,11 +29,11 @@ export default function OrderSuccessPage() {
 
                 <h1 className="text-3xl font-bold text-gray-900 mb-4">Order Placed Successfully!</h1>
                 <p className="text-gray-600 mb-8">
-                    Thank you for your order. We've sent a confirmation email with your order details.
+                    Thank you for your order. We&#39;ve sent a confirmation email with your order details.
                 </p>
 
                 <div className="bg-white rounded-lg shadow-md p-6 mb-8 text-left max-w-md mx-auto">
-                    <h2 className="text-lg font-medium text-gray-900 mb-4">What's next?</h2>
+                    <h2 className="text-lg font-medium text-gray-900 mb-4">What&#39;s next?</h2>
                     <ul className="space-y-3">
                         <li className="flex items-start">
                             <svg
@@ -49,7 +49,7 @@ export default function OrderSuccessPage() {
                                     d="M5 13l4 4L19 7"
                                 />
                             </svg>
-                            <span>You'll receive an order confirmation email shortly.</span>
+                            <span>You&apos;ll receive an order confirmation email shortly.</span>
                         </li>
                         <li className="flex items-start">
                             <svg
@@ -65,7 +65,7 @@ export default function OrderSuccessPage() {
                                     d="M5 13l4 4L19 7"
                                 />
                             </svg>
-                            <span>We'll send you a shipping confirmation when your items are on their way.</span>
+                            <span>We&apos;ll send you a shipping confirmation when your items are on their way.</span>
                         </li>
                         <li className="flex items-start">
                             <svg
