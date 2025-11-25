@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
-import Logo from "assets/Logo-Ayush-Aushadhi-mini.png";
+import Logo from "assets/Ayush-Aushadhi-Logo-Fit.jpeg";
 import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
@@ -89,7 +89,8 @@ function Navbar() {
                       className="transition-colors duration-50 font-medium group relative"
                     >
                       {item.name}
-                      <span className="absolute left-1/2 -bottom-1 h-[2px] w-0 bg-gradient-to-r from-transparent via-[var(--logo-bg-color)] to-transparent rounded-full transition-all duration-300 ease-out group-hover:w-full group-hover:left-0"></span>
+                      <span className="absolute left-0 -bottom-[6px] h-[1px] w-0 bg-[var(--logo-bg-color)] transition-all duration-300 group-hover:w-full"></span>
+                      <span className="absolute left-0 -bottom-[2px] h-[1px] w-0 bg-[var(--logo-bg-color)] transition-all duration-300 delay-100 group-hover:w-full"></span>
                     </Link>
                   )
               )}
@@ -112,8 +113,8 @@ function Navbar() {
                       className="rounded-full"
                     />
                   ) : (
-                    <div className="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center ">
-                      <span className="text-blue-700 dark:text-blue-300 font-semibold bg-[#0B2545] rounded-full">
+                    <div className="w-10 h-10 rounded-full bg-[var(--button-bg-color)] flex items-center justify-center ">
+                      <span className="text-[var(--text-color)] font-semibold p-1 bg-[var(--container-color)] rounded-full">
                         {user?.name
                           ? user.name
                               .split(" ")
@@ -175,7 +176,7 @@ function Navbar() {
 
       {/* Mobile Navigation */}
       {isOpen && (
-        <div className="md:hidden bg-[var(--container-color-in)] mt-3 pb-4 max-w-[200px] border rounded border-[#0B2545] border-[3px] p-2">
+        <div className="md:hidden bg-[var(--container-color-in)] mt-3 pb-4 max-w-[200px] border rounded border-[var(--border-color)] border-[3px] p-2">
           <nav className="flex flex-col space-y-3">
             {navItems.map(
               (item) =>
