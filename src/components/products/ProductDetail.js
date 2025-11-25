@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { productAPI } from '@/services/api';
+import { useCart } from '@/contexts/CartContext';
+import { toast } from 'react-hot-toast';
 
 const ProductDetail = ({ product: initialProduct }) => {
   const router = useRouter();
@@ -13,6 +15,8 @@ const ProductDetail = ({ product: initialProduct }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
+
+  const { addToCart } = useCart();
 
   // If no initial product is provided, fetch it from the API
   useEffect(() => {
@@ -40,15 +44,26 @@ const ProductDetail = ({ product: initialProduct }) => {
   const handleAddToCart = async () => {
     try {
       setAddingToCart(true);
-      // TODO: Implement add to cart functionality
-      // await cartAPI.addToCart(product._id, quantity);
-      // Show success message or redirect to cart
-      alert('Product added to cart!');
+      const success = await addToCart(product, quantity);
+      if (success) {
+        toast.success('Added to cart!', {
+          position: 'bottom-center',
+        });
+      }
     } catch (err) {
       console.error('Error adding to cart:', err);
-      alert('Failed to add product to cart');
+      toast.error('Failed to add product to cart', {
+        position: 'bottom-center',
+      });
     } finally {
       setAddingToCart(false);
+    }
+  };
+
+  const handleQuantityChange = (newQuantity) => {
+    const qty = parseInt(newQuantity, 10);
+    if (!isNaN(qty) && qty >= 1) {
+      setQuantity(qty);
     }
   };
 
@@ -123,12 +138,12 @@ const ProductDetail = ({ product: initialProduct }) => {
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center">
                 <p className="text-3xl text-gray-900">
-                  ${product.sellingPrice || product.price}
+                  {product.sellingPrice || product.price}
                 </p>
                 {product.discount > 0 && (
                   <>
                     <p className="ml-2 text-lg text-gray-500 line-through">
-                      ${product.mrp || product.price}
+                      {product.mrp || product.price}
                     </p>
                     <span className="ml-2 text-sm font-medium text-green-600">
                       {product.discount}% off
@@ -208,42 +223,55 @@ const ProductDetail = ({ product: initialProduct }) => {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center border border-gray-300 rounded-md">
                   <button
-                    type="button"
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    onClick={() => handleQuantityChange(quantity - 1)}
+                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-l-md hover:bg-gray-100"
+                    disabled={quantity <= 1}
                   >
-                    <span className="sr-only">Decrease quantity</span>
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M20 12H4"></path>
-                    </svg>
+                    -
                   </button>
-                  <span className="px-4 py-2 w-12 text-center">{quantity}</span>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quantity}
+                    onChange={(e) => handleQuantityChange(parseInt(e.target.value, 10))}
+                    className="w-16 h-10 text-center border-t border-b border-gray-300"
+                  />
                   <button
-                    type="button"
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100"
-                    onClick={() => setQuantity(quantity + 1)}
+                    onClick={() => handleQuantityChange(quantity + 1)}
+                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-r-md hover:bg-gray-100"
                   >
-                    <span className="sr-only">Increase quantity</span>
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path>
-                    </svg>
+                    +
                   </button>
                 </div>
-
                 <button
-                  type="button"
                   onClick={handleAddToCart}
-                  disabled={addingToCart || !product.inStock}
-                  className={`flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${addingToCart || !product.inStock ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md font-medium transition-colors"
                 >
-                  {addingToCart ? (
-                    'Adding...'
-                  ) : product.inStock ? (
-                    'Add to cart'
-                  ) : (
-                    'Out of stock'
-                  )}
+                  Add to Cart
                 </button>
+
+                <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
+                  <div className="flex items-center">
+                    <svg
+                      className="h-5 w-5 text-green-500 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    In Stock
+                  </div>
+                  <span>|</span>
+                  <div>Free Shipping</div>
+                  <span>|</span>
+                  <div>30-Day Returns</div>
+                </div>
               </div>
             </div>
 

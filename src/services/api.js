@@ -228,10 +228,50 @@ export const itCategoryAPI = {
   updateOrder: (ids) => fetchAPI('/it-categories/update-order', 'PATCH', { ids })
 };
 
+
+
+export const cartAPI = {
+  getCart: async () => {
+    return fetchAPI('/cart', 'GET');
+  },
+
+  addToCart: async (productId, quantity) => {
+    return fetchAPI('/cart/items', 'POST', { productId, quantity });
+  },
+
+  updateCartItem: async (productId, quantity) => {
+    return fetchAPI(`/cart/items/${productId}`, 'PATCH', { quantity });
+  },
+
+  removeFromCart: async (productId) => {
+    return fetchAPI(`/cart/items/${productId}`, 'DELETE');
+  },
+
+  clearCart: async () => {
+    return fetchAPI('/cart', 'DELETE');
+  },
+};
+
+export const orderAPI = {
+  createOrder: async (orderData) => {
+    return fetchAPI('/orders', 'POST', orderData);
+  },
+
+  getOrders: async () => {
+    return fetchAPI('/orders', 'GET');
+  },
+
+  getOrder: async (orderId) => {
+    return fetchAPI(`/orders/${orderId}`, 'GET');
+  },
+};
+
 const api = {
   auth: authAPI,
   product: productAPI,
-  itCategory: itCategoryAPI
+  itCategory: itCategoryAPI,
+  cart: cartAPI,
+  order: orderAPI
 };
 
 export default api;

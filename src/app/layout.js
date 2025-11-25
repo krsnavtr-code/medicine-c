@@ -4,6 +4,7 @@ import LayoutWrapper from "@/components/LayoutWrapper";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Toaster } from 'react-hot-toast';
+import { CartProvider } from "@/contexts/CartContext";
 
 // Load the Montserrat font with the desired weights and subsets
 const montserrat = Montserrat({
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
       <body className="antialiased bg-bg text-text transition-colors duration-200 min-h-screen font-sans" suppressHydrationWarning>
         <AuthProvider>
           <ThemeProvider>
+            <CartProvider>
             <LayoutWrapper>{children}</LayoutWrapper>
             <Toaster 
               position="top-center"
@@ -38,7 +40,8 @@ export default function RootLayout({ children }) {
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
                 }
               }}
-            />
+              />
+            </CartProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>
