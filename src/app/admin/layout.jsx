@@ -83,7 +83,6 @@ export default function AdminLayout({ children }) {
   const navItems = [
     { name: "Dashboard", icon: <FiPieChart />, path: "/admin" },
     { name: "Users", icon: <FiUsers />, path: "/admin/users" },
-    { name: "Profile", icon: <FiUser />, path: "/admin/profile" },
     { name: "IT Categories", icon: <FiImage />, path: "/admin/it-categories" },
     { name: "Products", icon: <FiImage />, path: "/admin/products" },
     { name: "Blog", icon: <FiMail />, path: "/admin/blog" },
