@@ -31,7 +31,7 @@ export default function AdminLayout({ children }) {
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const res = await fetch("/api/v1/users/me", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/me`, {
           credentials: "include",
         });
 
