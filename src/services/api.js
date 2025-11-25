@@ -207,9 +207,31 @@ async function handleResponse(response) {
 }
 
 // Export all APIs as a named export
+// IT Categories API
+export const itCategoryAPI = {
+  // Get all IT categories
+  getCategories: () => fetchAPI('/it-categories'),
+
+  // Get single IT category by ID
+  getCategory: (id) => fetchAPI(`/it-categories/${id}`),
+
+  // Create new IT category
+  createCategory: (data) => fetchAPI('/it-categories', 'POST', data),
+
+  // Update IT category
+  updateCategory: (id, data) => fetchAPI(`/it-categories/${id}`, 'PATCH', data),
+
+  // Delete IT category
+  deleteCategory: (id) => fetchAPI(`/it-categories/${id}`, 'DELETE'),
+
+  // Update categories order
+  updateOrder: (ids) => fetchAPI('/it-categories/update-order', 'PATCH', { ids })
+};
+
 const api = {
   auth: authAPI,
-  product: productAPI
+  product: productAPI,
+  itCategory: itCategoryAPI
 };
 
 export default api;

@@ -18,21 +18,24 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { itCategoryAPI } from "@/services/api";
 
 const SortableItem = ({ id, children }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const style = { transform: CSS.Transform.toString(transform), transition };
-  
+
   // Convert children to array and clone the first child to add drag handle
   const childrenArray = React.Children.toArray(children);
   const firstChild = childrenArray[0];
-  
-  const firstChildWithProps = firstChild ? React.cloneElement(firstChild, {
-    'data-drag-handle': true,
-    ...attributes,
-    ...listeners,
-  }) : null;
+
+  const firstChildWithProps = firstChild
+    ? React.cloneElement(firstChild, {
+        "data-drag-handle": true,
+        ...attributes,
+        ...listeners,
+      })
+    : null;
 
   return (
     <tr ref={setNodeRef} style={style}>
@@ -56,8 +59,6 @@ export default function ITCategoriesPage() {
   const [toast, setToast] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
@@ -69,11 +70,13 @@ export default function ITCategoriesPage() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/v1/it-categories`);
-      const data = await res.json();
-      if (data.status === "success") setCategories(data.data.categories);
+      const response = await itCategoryAPI.getCategories();
+      if (response.status === "success") {
+        setCategories(response.data.categories);
+      }
     } catch (err) {
-      showToast("Failed to load categories", "error");
+      console.error("Error fetching categories:", err);
+      showToast(err.message || "Failed to load categories", "error");
     } finally {
       setIsLoading(false);
     }
@@ -96,21 +99,18 @@ export default function ITCategoriesPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const url = editingCategory
-        ? `${API_URL}/api/v1/it-categories/${editingCategory._id}`
-        : `${API_URL}/api/v1/it-categories`;
-      const method = editingCategory ? "PATCH" : "POST";
-      const res = await fetch(url, {
-        method,
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      if (!res.ok) throw new Error("Failed to save category");
-      showToast(editingCategory ? "Category updated" : "Category created");
+      if (editingCategory) {
+        await itCategoryAPI.updateCategory(editingCategory._id, formData);
+        showToast("Category updated");
+      } else {
+        await itCategoryAPI.createCategory(formData);
+        showToast("Category created");
+      }
       fetchCategories();
       closeModal();
     } catch (err) {
-      showToast(err.message, "error");
+      console.error("Error saving category:", err);
+      showToast(err.message || "Failed to save category", "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -119,14 +119,12 @@ export default function ITCategoriesPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure to delete this category?")) return;
     try {
-      const res = await fetch(`${API_URL}/api/v1/it-categories/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Failed to delete category");
+      await itCategoryAPI.deleteCategory(id);
       showToast("Category deleted");
       fetchCategories();
     } catch (err) {
-      showToast(err.message, "error");
+      console.error("Error deleting category:", err);
+      showToast(err.message || "Failed to delete category", "error");
     }
   };
 
