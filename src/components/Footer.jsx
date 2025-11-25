@@ -43,18 +43,22 @@ const Footer = () => {
   // Pages
   const quickLinks = [
     { name: "Home", href: "/" },
-    { name: "Shop Medicines", href: "/medicines" },
-    { name: "Doctors Consultation", href: "/consultation" },
+    { name: "Products", href: "/products" },
     { name: "Health Packages", href: "/health-packages" },
-    { name: "My Orders", href: "/orders" },
+    { name: "Contact Us", href: "/contact" },
+    { name: "About Us", href: "/about" },
+  ];
+
+  const moreLinks = [
+    { name: "Cookies", href: "/cookies" },
+    { name: "Return & Refund", href: "/refund" },
+    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Shipping Policy", href: "/shipping" },
   ];
 
   // Legal Links
   const legalLinks = [
-    { name: "Return & Refund", href: "/refund" },
-    { name: "Terms & Conditions", href: "/terms" },
     { name: "Privacy Policy", href: "/privacy" },
-    { name: "Shipping Policy", href: "/shipping" },
   ];
 
   // Contact
@@ -153,13 +157,25 @@ const Footer = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-[var(--button-color)] py-1 px-2 rounded hover:opacity-90 transition-opacity"
+                  className="bg-[var(--button-bg-color)] text-[var(--button-color)] py-1 px-2 rounded hover:bg-[var(--button-hover-color)]"
                 >
                   Subscribe
                 </button>
               </form>
             )}
           </div>
+        </div>
+
+        <div className="mt-4 md:mt-0 flex flex-wrap justify-center gap-4">
+          {moreLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="text-sm hover:text-[var(--text-color)]"
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
 
         {/* Bottom Bar */}

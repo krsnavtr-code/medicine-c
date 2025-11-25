@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 const Banner = () => {
   const [user, setUser] = useState({
-    image: "/avatar.png",
+    image: "../../public/assets/Logo-Ayush-Aushadhi.png",
     role: "Medicine Seller",
     name: "Krishna Avtar",
     description: "Medicine Selling Platform",
@@ -32,7 +32,7 @@ const Banner = () => {
         const data = await res.json();
         if (data) {
           setUser({
-            image: data.image || "/avatar.png",
+            image: data.image || "../../public/assets/Logo-Ayush-Aushadhi.png",
             role: data.role || "",
             name: data.name || "",
             description: data.description || "",
@@ -153,15 +153,10 @@ const Banner = () => {
           variants={itemVariants}
         >
           <motion.img
-            src={user.image?.includes('process.env.NEXT_PUBLIC_API_URL')
-              ? process.env.NEXT_PUBLIC_API_URL + user.image.split('"')[1]
-              : user.image || "/avatar.png"}
+            src="../../public/assets/Logo-Ayush-Aushadhi.png"
             alt="profile"
             className="relative w-56 lg:w-78 rounded-full z-10"
             variants={itemVariants}
-            onError={(e) => {
-              e.target.src = '/avatar.png';
-            }}
           />
           <motion.h1
             className="text-4xl text-center leading-tight font-bold text-white z-20"

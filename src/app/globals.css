@@ -3,25 +3,21 @@
 /* Light theme (default) */
 :root {
   /* Brand */
-  --logo-bg-color: #0b2545;
-  --logo-bg-color-light: #2a3747;
+  --logo-bg-color: #0C5F2F;
+  --logo-bg-color-light: #17743E;
   --logo-color: #ffffff;
-
+/*  0C5F2F   17743E */
   /* Container */
   --container-color: #ffffff;
-  /* --container-color-in: #bee2d6; */
-  /* --container-color-in: #d6d3f0; */
-  /* --container-color-in: #fedbe4; */
-  /* --container-color-in: #c1f1bd; */
-  --container-color-in: #d3d3d3;
+  --container-color-in: #F2FBF6;
 
   /* Text */
   --text-color: #000000;
   --text-color-light: #3c3c3c;
 
   /* Button */
-  --button-bg-color: #0b2545;
-  --button-hover-color: #2a3747;
+  --button-bg-color: #0C5F2F;
+  --button-hover-color: #17743E;
   --button-color: #ffffff;
 
   /* Border color */
@@ -32,11 +28,11 @@
 .dark {
   /* Brand */
   --logo-bg-color: #ffffff;
-  --logo-bg-color-light: #2a3747;
-  --logo-color: #0b2545;
+  --logo-bg-color-light: #17743E;
+  --logo-color: #0C5F2F;
   /* Container */
-  --container-color: #0b2545;
-  --container-color-in: #1e3a5f;
+  --container-color: #0b2f20;
+  --container-color-in: #1e4a33;
 
   /* Text */
   --text-color: #ffffff;
@@ -45,7 +41,7 @@
   /* Button */
   --button-bg-color: #ffffff;
   --button-hover-color: #d3d3d3;
-  --button-color: #0b2545;
+  --button-color: #0C5F2F;
 
   /* Border color */
   --border-color: #d3d3d3;

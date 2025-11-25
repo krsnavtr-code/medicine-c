@@ -12,7 +12,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "@/contexts/AuthContext";
 import Image from "next/image";
-import Logo from "assets/trivixa-fix-size-brand-logo.png";
+import Logo from "assets/Logo-Ayush-Aushadhi-mini.png";
 import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
@@ -41,10 +41,9 @@ function Navbar() {
   const navItems = [
     { name: "Admin", path: "/admin", hidden: !isAdmin },
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
-    { name: "Store", path: "/products" },
-    { name: "Health Packages", path: "/skills" },
-    { name: "Contact", path: "/contact" },
+    { name: "Products", path: "/products" },
+    { name: "Health Packages", path: "/health-packages" },
+    { name: "Blog", path: "/blog" },
   ];
 
   const handleLogout = async () => {
@@ -53,7 +52,7 @@ function Navbar() {
       setIsOpen(false);
     } catch (error) {
       console.error("Logout error:", error);
-    }
+    } 
   };
 
   return (
@@ -66,15 +65,16 @@ function Navbar() {
     >
       <div className="container mx-auto py-2 px-2">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-gray-800">
-            {/* <Image
+          <Link href="/" className="text-2xl font-bold">
+            <Image
               src={Logo}
               alt="Logo"
               width={70}
               height={70}
               className="rounded-sm"
-            /> */}
-            Ayush Aushadhi
+            />
+            {/* <span>Ayush</span> <br />
+            <span style={{ fontSize: "8px" }}>Aushadhi</span> */}
           </Link>
 
           {/* Desktop Navigation */}
