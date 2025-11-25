@@ -35,18 +35,21 @@ export default function AdminLayout({ children }) {
           credentials: "include",
         });
 
+        const data = await res.json(); // Moved this line up to see the actual error response
+
         if (!res.ok) {
-          throw new Error("Not authorized");
+          console.error("Error response:", data); // Log the actual error
+          throw new Error(data.message || "Not authorized");
         }
 
-        const data = await res.json();
-
         if (data.data.user.role !== "admin") {
+          console.log("User role:", data.data.user.role); // Log the user's role
           throw new Error("Access denied. Admins only.");
         }
 
         setUser(data.data.user);
       } catch (error) {
+        console.error("Auth error:", error);
         toast.error(error.message || "Please log in as admin");
         window.location.href = "/login";
       }
