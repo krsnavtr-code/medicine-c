@@ -13,8 +13,8 @@ function getCookie(name) {
 // Helper function to handle API requests
 async function fetchAPI(endpoint, method = 'GET', data = null) {
   // Ensure endpoint starts with a forward slash
-  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${API_BASE_URL}/api/v1${normalizedEndpoint}`;
+  // const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+  const url = `${API_BASE_URL}/api/v1`;
   
   // Get the JWT token from cookies
   const token = getCookie('jwt');
