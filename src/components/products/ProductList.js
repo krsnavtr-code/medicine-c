@@ -10,10 +10,11 @@ const ProductList = ({ initialProducts = [] }) => {
   const [loading, setLoading] = useState(!initialProducts.length);
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
-    category: '',
-    sort: '-createdAt',
     limit: 12,
     page: 1,
+    sort: "-createdAt",
+    isActive: true,
+    isDeleted: false
   });
 
   useEffect(() => {
