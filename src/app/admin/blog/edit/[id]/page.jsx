@@ -10,10 +10,12 @@ export default function EditBlogPost() {
   const [blog, setBlog] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`/api/v1/blog/${id}`, {
+        const res = await fetch(`${API_URL}/api/v1/blog/${id}`, {
           credentials: "include",
         });
 

@@ -9,12 +9,14 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const [usersRes, contactsRes] = await Promise.all([
-          axios.get('/api/v1/admin/dashboard'),
-          axios.get('/api/v1/admin/contacts/stats')
+          axios.get(`${API_URL}/api/v1/admin/dashboard`),
+          axios.get(`${API_URL}/api/v1/admin/contacts/stats`)
         ]);
 
         setStats({

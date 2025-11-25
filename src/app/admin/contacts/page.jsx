@@ -19,6 +19,8 @@ const ContactsPage = () => {
   const [stats, setStats] = useState(null);
   const router = useRouter();
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     fetchContacts();
     fetchStats();
@@ -27,7 +29,7 @@ const ContactsPage = () => {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get('/api/v1/admin/contacts', {
+      const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts`, {
         params: { status: statusFilter === 'all' ? '' : statusFilter }
       });
       setContacts(data.data.contacts);
@@ -41,7 +43,7 @@ const ContactsPage = () => {
 
   const fetchStats = async () => {
     try {
-      const { data } = await axios.get('/api/v1/admin/contacts/stats');
+      const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts/stats`);
       setStats(data.data.stats);
     } catch (error) {
       console.error('Error fetching stats:', error);
@@ -50,7 +52,9 @@ const ContactsPage = () => {
 
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await axios.patch(`/api/v1/admin/contacts/${id}`, { status: newStatus });
+      await axios.patch(`${API_URL}/api/v1/admin/contacts/${id}`, {
+        status: newStatus,
+      });
       await fetchContacts();
       await fetchStats();
       toast.success('Status updated successfully');

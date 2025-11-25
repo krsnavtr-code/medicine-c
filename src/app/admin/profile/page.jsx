@@ -16,10 +16,12 @@ export default function ProfileManagement() {
   });
   const [isLoading, setIsLoading] = useState(true);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await fetch("/api/v1/admin/profile", {
+        const res = await fetch(`${API_URL}/api/v1/admin/profile`, {
           credentials: "include",
           headers: { "Content-Type": "application/json" },
         });
@@ -65,7 +67,7 @@ export default function ProfileManagement() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/v1/admin/profile", {
+      const res = await fetch(`${API_URL}/api/v1/admin/profile`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

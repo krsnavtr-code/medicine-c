@@ -22,6 +22,7 @@ import {
 import { getCookie } from "@/services/api";
 import CategoryManager from "./components/CategoryManager";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const API_BASE_URL = "/api/v1";
 
 export default function BlogList() {
@@ -96,7 +97,7 @@ export default function BlogList() {
     try {
       console.log("Cookies:", document.cookie); // Debug log
 
-      const res = await fetch("/api/v1/blog", {
+      const res = await fetch(`${API_URL}/api/v1/blog`, {
         credentials: "include",
       });
 
@@ -126,7 +127,7 @@ export default function BlogList() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch("/api/v1/blog-categories", {
+      const res = await fetch(`${API_URL}/api/v1/blog-categories`, {
         credentials: "include",
       });
 
@@ -146,8 +147,8 @@ export default function BlogList() {
   const handleAddCategory = async (categoryData) => {
     try {
       const url = categoryData._id
-        ? `${API_BASE_URL}/blog-categories/${categoryData._id}`
-        : `${API_BASE_URL}/blog-categories`;
+        ? `${API_URL}${API_BASE_URL}/blog-categories/${categoryData._id}`
+        : `${API_URL}${API_BASE_URL}/blog-categories`;
 
       const method = categoryData._id ? "PUT" : "POST";
 
@@ -181,10 +182,13 @@ export default function BlogList() {
     }
 
     try {
-      const res = await fetch(`/api/v1/blog-categories/${categoryId}`, {
-        method: "DELETE",
-        credentials: "include",
-      });
+      const res = await fetch(
+        `${API_URL}/api/v1/blog-categories/${categoryId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       if (res.ok) {
         toast.success("Category deleted successfully");
@@ -204,7 +208,7 @@ export default function BlogList() {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this blog post?")) {
       try {
-        const res = await fetch(`/api/v1/blog/${id}`, {
+        const res = await fetch(`${API_URL}/api/v1/blog/${id}`, {
           method: "DELETE",
           credentials: "include", // Important for cookies
         });

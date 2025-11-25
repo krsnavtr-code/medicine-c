@@ -31,6 +31,8 @@ const MediaGallery = () => {
   const dropRef = useRef(null);
   const tagMenuRef = useRef(null);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   // Fetch all media files
   useEffect(() => {
     fetchMedia();
@@ -38,7 +40,7 @@ const MediaGallery = () => {
 
   const fetchMedia = async () => {
     try {
-      const response = await fetch(`/api/v1/admin/media`, {
+      const response = await fetch(`${API_URL}/api/v1/admin/media`, {
         credentials: "include",
       });
 
@@ -146,14 +148,17 @@ const MediaGallery = () => {
   // Update file tags on server
   const updateFileTags = async (fileId, tags) => {
     try {
-      const response = await fetch(`/api/v1/admin/media/${fileId}/tags`, {
-        method: "PATCH",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ tags }),
-      });
+      const response = await fetch(
+        `${API_URL}/api/v1/admin/media/${fileId}/tags`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ tags }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update tags");
@@ -179,7 +184,7 @@ const MediaGallery = () => {
           formData.append("tags", JSON.stringify(fileObj.tags));
         }
 
-        const response = await fetch(`/api/v1/admin/media`, {
+        const response = await fetch(`${API_URL}/api/v1/admin/media`, {
           method: "POST",
           credentials: "include",
           body: formData,
@@ -210,7 +215,7 @@ const MediaGallery = () => {
     if (!window.confirm("Are you sure you want to delete this file?")) return;
 
     try {
-      const response = await fetch(`/api/v1/admin/media/${id}`, {
+      const response = await fetch(`${API_URL}/api/v1/admin/media/${id}`, {
         method: "DELETE",
         credentials: "include",
       });

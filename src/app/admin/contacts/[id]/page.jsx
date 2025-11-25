@@ -21,11 +21,13 @@ export default function ContactDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const fetchContact = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`/api/v1/admin/contacts/${id}`);
+        const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts/${id}`);
         setContact(data.data.contact);
         setStatus(data.data.contact.status);
       } catch (error) {
@@ -44,7 +46,9 @@ export default function ContactDetailsPage() {
   const updateStatus = async (newStatus) => {
     try {
       setStatus(newStatus);
-      await axios.patch(`/api/v1/admin/contacts/${id}`, { status: newStatus });
+      await axios.patch(`${API_URL}/api/v1/admin/contacts/${id}`, {
+        status: newStatus,
+      });
       toast.success("Status updated successfully");
       router.refresh();
     } catch (error) {

@@ -28,10 +28,12 @@ export default function AdminLayout({ children }) {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
     const checkAdmin = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/users/me`, {
+        const res = await fetch(`${API_URL}/api/v1/users/me`, {
           credentials: "include",
         });
 
@@ -60,7 +62,7 @@ export default function AdminLayout({ children }) {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/v1/users/logout", {
+      await fetch(`${API_URL}/api/v1/users/logout`, {
         method: "POST",
         credentials: "include",
       });

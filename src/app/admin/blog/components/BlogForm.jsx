@@ -224,6 +224,8 @@ export default function BlogForm({ blogData = null }) {
   const isEditMode = !!blogData?._id;
   const [editorReady, setEditorReady] = useState(false);
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -246,7 +248,7 @@ export default function BlogForm({ blogData = null }) {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await fetch("/api/v1/blog-categories", {
+        const res = await fetch(`${API_URL}/api/v1/blog-categories`, {
           credentials: "include",
         });
         if (res.ok) {
@@ -400,7 +402,7 @@ export default function BlogForm({ blogData = null }) {
 
       // Check if slug exists in the database
       try {
-        const response = await fetch(`/api/v1/blog/slug/${slug}`, {
+        const response = await fetch(`${API_URL}/api/v1/blog/slug/${slug}`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -488,7 +490,9 @@ export default function BlogForm({ blogData = null }) {
     setIsSubmitting(true);
 
     try {
-      const url = isEditMode ? `/api/v1/blog/${blogData._id}` : "/api/v1/blog";
+      const url = isEditMode
+        ? `${API_URL}/api/v1/blog/${blogData._id}`
+        : `${API_URL}/api/v1/blog`;
       const method = isEditMode ? "PUT" : "POST";
 
       const categoryIds = formData.categories.map((cat) =>
