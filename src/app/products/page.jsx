@@ -22,15 +22,12 @@ export default async function ProductsPage() {
   const initialProducts = await getProducts();
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className="min-h-screen">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Our Products
+            Quality Products Selected for You
           </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-base text-gray-500">
-            Discover our wide range of high-quality products
-          </p>
         </div>
 
         <Suspense
