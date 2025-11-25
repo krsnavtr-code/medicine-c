@@ -1,56 +1,28 @@
 import React from "react";
-import { SiMongodb, SiExpress, SiReact, SiNodedotjs, SiNextdotjs, SiMysql } from "react-icons/si";
+import {
+  SiMongodb,
+  SiExpress,
+  SiReact,
+  SiNodedotjs,
+  SiNextdotjs,
+  SiMysql,
+} from "react-icons/si";
 
 import { motion } from "framer-motion";
 import { Button } from "./ui";
-import { useEffect, useState } from "react";
 
 const Banner = () => {
-  const [user, setUser] = useState({
-    image: "../../public/assets/Logo-Ayush-Aushadhi.png",
+  // 🔥 STATIC USER DATA
+  const user = {
+    image: "/assets/Logo-Ayush-Aushadhi.png",
     role: "Medicine Seller",
     name: "Krishna Avtar",
     description: "Medicine Selling Platform",
     sortDescription: "Medicine Selling Platform",
-    experience: "",
-    projects: "",
-    cvPdf: "",
-  });
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const res = await fetch("/api/profile", {
-          cache: "no-store",
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch profile");
-        }
-
-        const data = await res.json();
-        if (data) {
-          setUser({
-            image: data.image || "../../public/assets/Logo-Ayush-Aushadhi.png",
-            role: data.role || "",
-            name: data.name || "",
-            description: data.description || "",
-            sortDescription: data.sortDescription || "",
-            experience: data.experience?.toString() || "0",
-            projects: data.projects?.toString() || "0",
-            cvPdf: data.cvPdf || "#",
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    experience: "5",
+    projects: "20",
+    cvPdf: "/assets/cv.pdf",
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -72,14 +44,6 @@ const Banner = () => {
       },
     },
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
 
   return (
     <section className="max-w-[1650px] mx-auto flex flex-col md:flex-row items-center justify-center px-6 md:px-16 py-16 mt-16 lg:mt-0">
@@ -136,7 +100,7 @@ const Banner = () => {
         </motion.div>
       </motion.div>
 
-      {/* RIGHT SIDE - Hidden on small and medium screens */}
+      {/* RIGHT SIDE */}
       <motion.div
         className="hidden lg:flex flex-1 mt-16 lg:mt-0 relative justify-center items-center"
         style={{ minWidth: "500px", maxWidth: "501px" }}
@@ -153,13 +117,14 @@ const Banner = () => {
           variants={itemVariants}
         >
           <motion.img
-            src="../../public/assets/Logo-Ayush-Aushadhi.png"
+            src={user.image}
             alt="profile"
             className="relative w-56 lg:w-78 rounded-full z-10"
             variants={itemVariants}
           />
+
           <motion.h1
-            className="text-4xl text-center leading-tight font-bold text-white z-20"
+            className="text-4xl text-center leading-tight font-bold text-white z-20 mt-4"
             style={{
               textShadow:
                 "0 0 10px #3b82f6, 0 0 20px #3b82f6, 0 0 30px #3b82f6",
@@ -169,57 +134,9 @@ const Banner = () => {
             {user.name}
           </motion.h1>
         </motion.div>
-
-        {/* Tech Icons */}
-        <motion.div
-          className="absolute z-10 bg-[#2a2a2a] p-1 rounded-full text-cyan-400 text-6xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          style={{ top: "-9%", right: "35%" }}
-          variants={itemVariants}
-        >
-          <SiNextdotjs />
-        </motion.div>
-
-        <motion.div
-          className="absolute z-10 bg-[#2a2a2a] p-1 rounded-full text-cyan-400 text-7xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          variants={itemVariants}
-          style={{ top: "0%", left: "23%" }}
-        >
-          <SiMongodb />
-        </motion.div>
-
-        <motion.div
-          className="absolute z-10 bg-[#2a2a2a] p-1 rounded-full text-yellow-400 text-5xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          variants={itemVariants}
-          style={{ bottom: "15%", left: "17%" }}
-        >
-          <SiExpress />
-        </motion.div>
-
-        <motion.div
-          className="absolute z-10 bg-[#2a2a2a] p-1 rounded-full text-green-500 text-3xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          variants={itemVariants}
-          style={{ bottom: "12%", right: "22%" }}
-        >
-          <SiReact />
-        </motion.div>
-
-        <motion.div
-          className="absolute z-10 bg-[#2a2a2a] p-1 rounded-full text-green-500 text-2xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          style={{ top: "19%", right: "20%" }}
-          variants={itemVariants}
-        >
-          <SiNodedotjs />
-        </motion.div>
-
-        <motion.div
-          className="absolute z-1 bg-[#2a2a2a] p-1 rounded-full text-cyan-400 text-4xl shadow-lg hover:scale-110 transition duration-300 ease-in-out"
-          style={{ bottom: "-5%", left: "39%" }}
-          variants={itemVariants}
-        >
-          <SiMysql />
-        </motion.div>
       </motion.div>
     </section>
   );
 };
+
 export default Banner;
