@@ -66,8 +66,8 @@ const Contact = () => {
       <div className="text-center mb-12">
         <h1 className="text-4xl font-bold mb-4">Get In Touch</h1>
         <p className="text-[var(--text-color)]">
-          Have a question or want to work together? Fill out the form below and I'll get back to
-          you as soon as possible.
+          Have a question or want to work together? Fill out the form below and
+          I'll get back to you as soon as possible.
         </p>
       </div>
 
@@ -75,18 +75,17 @@ const Contact = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-[var(--text-color)]">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium mb-1"
-              >
+              <label htmlFor="name" className="block text-sm font-medium mb-1">
                 Name <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
                 id="name"
-                {...register('name')}
+                {...register("name")}
                 className={`w-full px-4 py-2 rounded-lg border ${
-                  errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  errors.name
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } bg-[var(--container-color)] text-[var(--text-color)]`}
                 placeholder="Full Name"
                 disabled={isSubmitting}
@@ -99,18 +98,17 @@ const Contact = () => {
             </div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium mb-1"
-              >
+              <label htmlFor="email" className="block text-sm font-medium mb-1">
                 Email <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
                 id="email"
-                {...register('email')}
+                {...register("email")}
                 className={`w-full px-4 py-2 rounded-lg border ${
-                  errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  errors.email
+                    ? "border-red-500"
+                    : "border-gray-300 dark:border-gray-600"
                 } bg-[var(--container-color)] text-[var(--text-color)]`}
                 placeholder="your.email@example.com"
                 disabled={isSubmitting}
@@ -124,18 +122,17 @@ const Contact = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="subject"
-              className="block text-sm font-medium mb-1"
-            >
+            <label htmlFor="subject" className="block text-sm font-medium mb-1">
               Subject <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
               id="subject"
-              {...register('subject')}
+              {...register("subject")}
               className={`w-full px-4 py-2 rounded-lg border ${
-                errors.subject ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                errors.subject
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               } bg-[var(--container-color)] text-[var(--text-color)]`}
               placeholder="How can I help you?"
               disabled={isSubmitting}
@@ -148,18 +145,17 @@ const Contact = () => {
           </div>
 
           <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium mb-1"
-            >
+            <label htmlFor="message" className="block text-sm font-medium mb-1">
               Message <span className="text-red-500">*</span>
             </label>
             <textarea
               id="message"
               rows={6}
-              {...register('message')}
+              {...register("message")}
               className={`w-full px-4 py-2 rounded-lg border ${
-                errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                errors.message
+                  ? "border-red-500"
+                  : "border-gray-300 dark:border-gray-600"
               } bg-[var(--container-color)] text-[var(--text-color)]`}
               placeholder="Your message here..."
               disabled={isSubmitting}
@@ -176,7 +172,7 @@ const Contact = () => {
               type="submit"
               disabled={isSubmitting}
               className={`px-6 py-3 cursor-pointer bg-[var(--button-bg-color)] text-[var(--button-color)] font-medium rounded-lg hover:bg-[var(--button-hover-color)] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors ${
-                isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                isSubmitting ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
               {isSubmitting ? (
@@ -204,7 +200,7 @@ const Contact = () => {
                   Sending...
                 </span>
               ) : (
-                'Send Message'
+                "Send Message"
               )}
             </button>
           </div>
@@ -230,7 +226,7 @@ const Contact = () => {
             </svg>
           </div>
           <h3 className="text-lg font-medium mb-1">Email</h3>
-          <p className="">demo.demo.com</p>
+          <p className="">sales@ayushaushadhi.com</p>
         </div>
 
         <div className="p-6 bg-[var(--container-color-in)] text-[var(--text-color)] rounded-lg shadow-md">

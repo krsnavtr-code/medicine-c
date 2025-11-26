@@ -56,7 +56,7 @@ const ProductList = ({ initialProducts = [] }) => {
     return (
       <div className="text-center py-12">
         <h3 className="text-lg font-medium text-gray-900">No products found</h3>
-        <p className="mt-1 text-sm text-gray-500">
+        <p className="mt-1 text-sm ">
           Try adjusting your search or filter to find what you&apos;re looking for.
         </p>
       </div>
@@ -92,33 +92,33 @@ const ProductList = ({ initialProducts = [] }) => {
 
               {/* Brand + Category */}
               <div className="flex justify-between items-center mt-2">
-                <span className="text-xs font-medium text-gray-500">{product.brand}</span>
-                <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full capitalize">
+                <span className="text-xs font-medium ">{product.brand}</span>
+                <span className="text-xs px-2 py-0.5 rounded-full capitalize">
                   {product.category}
                 </span>
               </div>
 
               {/* Name */}
-              <h3 className="mt-2 text-sm font-semibold text-gray-800 line-clamp-2">
+              <h3 className="mt-2 text-sm font-semibold line-clamp-2">
                 {product.name}
               </h3>
 
               {/* Use For (Male/Female/Both) */}
               {product.useFor && (
-                <p className="text-xs text-blue-600 font-medium mt-1">
+                <p className="text-xs font-medium mt-1">
                   For: {product.useFor}
                 </p>
               )}
 
               {/* Price */}
               <div className="flex items-center mt-2">
-                <p className="text-lg font-bold text-gray-900">
+                <p className="text-lg font-bold">
                   ₹{product.sellingPrice || product.price}
                 </p>
 
                 {product.discount > 0 && (
                   <>
-                    <p className="ml-2 text-sm text-gray-500 line-through">
+                    <p className="ml-2 text-sm  line-through">
                       ₹{product.mrp || product.price}
                     </p>
                     <span className="ml-2 text-xs font-medium text-green-600">
@@ -149,7 +149,7 @@ const ProductList = ({ initialProducts = [] }) => {
                       </svg>
                     ))}
                   </div>
-                  <span className="ml-1 text-xs text-gray-500">
+                  <span className="ml-1 text-xs ">
                     ({product.numReviews || 0})
                   </span>
                 </div>

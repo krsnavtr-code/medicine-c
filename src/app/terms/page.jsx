@@ -141,10 +141,10 @@ const TermsPage = () => {
           <p className="mb-2">
             Email:{" "}
             <a
-              href="mailto:demo.demo.com"
+              href="mailto:sales@ayushaushadhi.com"
               className="text-blue-600 font-bold hover:underline"
             >
-              demo.demo.com
+              sales@ayushaushadhi.com
             </a>
           </p>
 

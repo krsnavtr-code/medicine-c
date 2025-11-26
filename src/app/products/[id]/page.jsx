@@ -40,7 +40,7 @@ export default async function ProductPage({ params }) {
   }
 
   return (
-    <div className="bg-white">
+    <div className="">
       <ProductDetailClient product={product} />
     </div>
   );

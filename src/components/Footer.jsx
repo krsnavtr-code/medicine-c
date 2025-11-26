@@ -51,9 +51,9 @@ const Footer = () => {
 
   const moreLinks = [
     { name: "Cookies", href: "/cookies" },
-    { name: "Return & Refund", href: "/refund" },
+    { name: "Return & Refund", href: "/return-refund" },
     { name: "Terms & Conditions", href: "/terms" },
-    { name: "Shipping Policy", href: "/shipping" },
+    { name: "Shipping Policy", href: "/shipping-policy" },
   ];
 
   // Legal Links
@@ -63,8 +63,8 @@ const Footer = () => {
 
   // Contact
   const contactInfo = [
-    { type: "Email", value: "support@medicare.com" },
-    { type: "Phone", value: "+91 9000000000" },
+    { type: "Email", value: "sales@ayushaushadhi.com" },
+    { type: "Phone", value: "+91 9319978460" },
     { type: "Address", value: "Noida, Uttar Pradesh, India" },
   ];
 
@@ -78,9 +78,8 @@ const Footer = () => {
               MediCart – Online Pharmacy
             </h3>
             <p className="mb-4">
-              Your trusted online medicine store. Get 100% genuine medicines,
-              health products, and doctor consultations delivered to your
-              doorstep.
+              Pure • Authentic • Ayurvedic — Find genuine herbal remedies for
+              your health needs.
             </p>
             <div className="flex space-x-4">
               {socialLinks.map((item) => (
@@ -157,7 +156,7 @@ const Footer = () => {
                 />
                 <button
                   type="submit"
-                  className="bg-[var(--button-bg-color)] text-[var(--button-color)] py-1 px-2 rounded hover:bg-[var(--button-hover-color)]"
+                  className="bg-[var(--button-bg-color)] text-[var(--button-color)] py-1 px-2 rounded hover:bg-[var(--button-hover-color)] cursor-pointer"
                 >
                   Subscribe
                 </button>
@@ -166,7 +165,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-4 md:mt-0 flex flex-wrap justify-center gap-4">
+        <div className="mt-4 pt-8 md:mt-0 flex flex-wrap justify-center gap-4">
           {moreLinks.map((link) => (
             <Link
               key={link.name}
@@ -181,7 +180,8 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-[var(--border-color)] mt-8 pt-4 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">
-            © {currentYear} MediCart. All rights reserved.
+            © {currentYear} <span className="uppercase">ayushaushadhi</span>.
+            All rights reserved.
           </p>
 
           <div className="mt-4 md:mt-0 flex flex-wrap justify-center gap-4">

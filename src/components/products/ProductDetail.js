@@ -90,7 +90,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                    '/images/placeholder-product.png';
 
   return (
-    <div className="bg-white">
+    <div className="">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8">
           {/* Product images */}
@@ -130,19 +130,19 @@ const ProductDetail = ({ product: initialProduct }) => {
 
           {/* Product info */}
           <div className="lg:pt-8">
-            <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+            <h1 className="text-3xl font-extrabold tracking-tight  sm:text-4xl">
               {product.name}
             </h1>
 
             <div className="mt-4">
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center">
-                <p className="text-3xl text-gray-900">
+                <p className="text-3xl ">
                   {product.sellingPrice || product.price}
                 </p>
                 {product.discount > 0 && (
                   <>
-                    <p className="ml-2 text-lg text-gray-500 line-through">
+                    <p className="ml-2 text-lg  line-through">
                       {product.mrp || product.price}
                     </p>
                     <span className="ml-2 text-sm font-medium text-green-600">
@@ -169,7 +169,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                     </svg>
                   ))}
                 </div>
-                <p className="ml-2 text-sm text-gray-500">
+                <p className="ml-2 text-sm ">
                   {product.numReviews || 0} reviews
                 </p>
               </div>
@@ -177,14 +177,14 @@ const ProductDetail = ({ product: initialProduct }) => {
 
             <div className="mt-6">
               <h3 className="sr-only">Description</h3>
-              <div className="space-y-6 text-base text-gray-700">
+              <div className="space-y-6 text-base">
                 {product.shortDescription || product.description}
               </div>
             </div>
 
             {/* Product details */}
             <div className="mt-6">
-              <h3 className="text-sm font-medium text-gray-900">Product Details</h3>
+              <h3 className="text-sm font-medium ">Product Details</h3>
               <div className="mt-4">
                 <ul className="list-disc pl-5 space-y-2 text-sm">
                   <li><span className="font-medium">Brand:</span> {product.brand || 'N/A'}</li>
@@ -224,7 +224,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                 <div className="flex items-center border border-gray-300 rounded-md">
                   <button
                     onClick={() => handleQuantityChange(quantity - 1)}
-                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-l-md hover:bg-gray-100"
+                    className="w-10 h-10 flex items-center justify-center text-[var(--button-color)] bg-[var(--button-hover-color)] rounded-l-md hover:bg-[var(--button-hover-color)]"
                     disabled={quantity <= 1}
                   >
                     -
@@ -277,33 +277,33 @@ const ProductDetail = ({ product: initialProduct }) => {
 
             {/* Additional information */}
             <div className="mt-10 border-t border-gray-200 pt-10">
-              <h3 className="text-sm font-medium text-gray-900">Additional Information</h3>
+              <h3 className="text-sm font-medium ">Additional Information</h3>
               <div className="mt-4">
                 <div className="space-y-6">
                   {product.howToUse && (
                     <div>
-                      <h4 className="font-medium text-gray-900">How to Use</h4>
+                      <h4 className="font-medium ">How to Use</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.howToUse}</p>
                     </div>
                   )}
                   
                   {product.safetyInformation && (
                     <div>
-                      <h4 className="font-medium text-gray-900">Safety Information</h4>
+                      <h4 className="font-medium ">Safety Information</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.safetyInformation}</p>
                     </div>
                   )}
                   
                   {product.storageInfo && (
                     <div>
-                      <h4 className="font-medium text-gray-900">Storage</h4>
+                      <h4 className="font-medium ">Storage</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.storageInfo}</p>
                     </div>
                   )}
                   
                   {product.sideEffects && product.sideEffects.length > 0 && (
                     <div>
-                      <h4 className="font-medium text-gray-900">Side Effects</h4>
+                      <h4 className="font-medium ">Side Effects</h4>
                       <ul className="mt-2 text-sm text-gray-600 list-disc pl-5 space-y-1">
                         {product.sideEffects.map((effect, index) => (
                           <li key={index}>{effect}</li>

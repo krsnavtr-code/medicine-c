@@ -45,7 +45,7 @@ function Navbar() {
     { name: "Admin", path: "/admin", hidden: !isAdmin },
     { name: "Home", path: "/" },
     { name: "Products", path: "/products" },
-    { name: "Health Packages", path: "/health-packages" },
+    // { name: "Health Packages", path: "/health-packages" },
     { name: "Blog", path: "/blog" },
   ];
 
@@ -55,15 +55,15 @@ function Navbar() {
       setIsOpen(false);
     } catch (error) {
       console.error("Logout error:", error);
-    } 
+    }
   };
 
   return (
     <header
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[var(--container-color-in)] backdrop-blur-md shadow-sm"
-          : "bg-[var(--container-color)]"
+          ? "bg-[var(--container-color-in)] dark:bg-[var(--container-color-in)] backdrop-blur-md shadow-sm"
+          : "bg-[var(--container-color-in)]"
       }`}
     >
       <div className="container mx-auto py-2 px-2">
@@ -81,7 +81,7 @@ function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-4">
             <nav className="flex space-x-8">
               {navItems.map(
                 (item) =>
@@ -99,12 +99,7 @@ function Navbar() {
               )}
             </nav>
 
-            <ThemeToggle />
-
-            <Link
-              href="/cart"
-              className="relative p-2 text-gray-600 hover:text-gray-900"
-            >
+            <Link href="/cart" className="relative p-2">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -124,6 +119,8 @@ function Navbar() {
                 </span>
               )}
             </Link>
+
+            <ThemeToggle />
 
             {user ? (
               <div className="relative">
