@@ -113,14 +113,19 @@ const ProductDetail = ({ product: initialProduct }) => {
           {/* Product images */}
           <div className="mt-10 lg:mt-0">
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
-              <Image
-                src={product.thumbnail || product.images[0].url}
-                alt={product.name}
-                width={600}
-                height={600}
-                className="h-full w-full object-cover object-center"
-                priority
-              />
+              {product.thumbnail || (product.images && product.images[0]?.url) ? (
+                <Image
+                  src={product.thumbnail || product.images[0].url}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="h-full w-full object-cover object-center"
+                />
+              ) : (
+                <div className="h-full w-full flex items-center justify-center bg-gray-100">
+                  <span className="text-gray-400">No image</span>
+                </div>
+              )}
             </div>
 
             {product.images && product.images.length > 1 && (
