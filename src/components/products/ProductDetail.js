@@ -114,7 +114,7 @@ const ProductDetail = ({ product: initialProduct }) => {
           <div className="mt-10 lg:mt-0">
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
               <Image
-                src={mainImage}
+                src={product.thumbnail || product.images[0].url}
                 alt={product.name}
                 width={600}
                 height={600}
@@ -155,12 +155,12 @@ const ProductDetail = ({ product: initialProduct }) => {
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center">
                 <p className="text-3xl flex items-center justify-center">
-                  <IndianRupee className="w-6 h-6" />{product.sellingPrice || product.price}
+                  <IndianRupee className="w-6 h-6" />{product.price}
                 </p>
                 {product.discount > 0 && (
                   <>
                     <p className="ml-2 text-lg  line-through flex items-center justify-center">
-                      <IndianRupee className='w-4 h-4'/>{product.mrp || product.price}
+                      <IndianRupee className='w-4 h-4'/>{product.mrp}
                     </p>
                     <span className="ml-2 text-sm font-medium text-green-600">
                       {product.discount}% off
