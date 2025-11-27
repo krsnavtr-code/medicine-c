@@ -211,11 +211,11 @@ export default function AdminProductsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        ${product.sellingPrice || product.price}
+                        ${product.price}
                       </div>
                       {product.discount > 0 && (
                         <div className="text-xs  line-through">
-                          ${product.mrp || product.price}
+                          ${product.mrp}
                         </div>
                       )}
                     </td>
