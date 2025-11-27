@@ -177,7 +177,7 @@ export default function BlogPage() {
                 onClick={() => setSelectedCategory(null)}
                 className={`px-3 text-sm rounded-full ${
                   !selectedCategory
-                    ? "bg-[var(--accent-color)] text-white"
+                    ? "bg-[var(--accent-color)]"
                     : "bg-[var(--button-bg-color)] text-[var(--button-color)] hover:bg-[var(--button-hover-color)]"
                 } cursor-pointer border border-[var(--border-color)] transition-colors`}
               >
@@ -189,7 +189,7 @@ export default function BlogPage() {
                   onClick={() => setSelectedCategory(category._id)}
                   className={`px-3 text-sm rounded-full ${
                     selectedCategory === category._id
-                      ? "bg-[var(--accent-color)] text-white"
+                      ? "bg-[var(--accent-color)]"
                       : "bg-[var(--button-bg-color)] text-[var(--button-color)] hover:bg-[var(--button-hover-color)]"
                   } cursor-pointer border border-[var(--border-color)] transition-colors`}
                 >

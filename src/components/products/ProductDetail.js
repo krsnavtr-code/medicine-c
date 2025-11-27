@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { productAPI } from '@/services/api';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from 'react-hot-toast';
+import { Plus, Minus, IndianRupee } from "lucide-react";
 
 const ProductDetail = ({ product: initialProduct }) => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const ProductDetail = ({ product: initialProduct }) => {
     if (!initialProduct && typeof window !== 'undefined') {
       const pathParts = window.location.pathname.split('/');
       const productId = pathParts[pathParts.length - 1];
-      
+
       const fetchProduct = async () => {
         try {
           setLoading(true);
@@ -85,9 +86,25 @@ const ProductDetail = ({ product: initialProduct }) => {
     );
   }
 
-  const mainImage = product.images && product.images[selectedImage]?.url || 
-                   product.thumbnail || 
-                   '/images/placeholder-product.png';
+  const mainImage = product.images && product.images[selectedImage]?.url ||
+    product.thumbnail ||
+    '/images/placeholder-product.png';
+
+  const showField = (value) => {
+    if (!value) return false;
+    if (typeof value === "string" && value.trim() === "") return false;
+    if (Array.isArray(value) && value.length === 0) return false;
+    return true;
+  };
+
+  function stableRandom(seed) {
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return Math.abs(hash % 10000) / 10000; // 0 - 1
+  }
+
 
   return (
     <div className="">
@@ -105,7 +122,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                 priority
               />
             </div>
-            
+
             {product.images && product.images.length > 1 && (
               <div className="mt-6 grid grid-cols-4 gap-4">
                 {product.images.map((image, index) => (
@@ -137,13 +154,13 @@ const ProductDetail = ({ product: initialProduct }) => {
             <div className="mt-4">
               <h2 className="sr-only">Product information</h2>
               <div className="flex items-center">
-                <p className="text-3xl ">
-                  {product.sellingPrice || product.price}
+                <p className="text-3xl flex items-center justify-center">
+                  <IndianRupee className="w-6 h-6" />{product.sellingPrice || product.price}
                 </p>
                 {product.discount > 0 && (
                   <>
-                    <p className="ml-2 text-lg  line-through">
-                      {product.mrp || product.price}
+                    <p className="ml-2 text-lg  line-through flex items-center justify-center">
+                      <IndianRupee className='w-4 h-4'/>{product.mrp || product.price}
                     </p>
                     <span className="ml-2 text-sm font-medium text-green-600">
                       {product.discount}% off
@@ -154,24 +171,44 @@ const ProductDetail = ({ product: initialProduct }) => {
 
               {/* Reviews */}
               <div className="mt-4 flex items-center">
-                <div className="flex items-center">
-                  {[0, 1, 2, 3, 4].map((rating) => (
-                    <svg
-                      key={rating}
-                      className={`h-5 w-5 ${
-                        product.rating > rating ? 'text-yellow-400' : 'text-gray-300'
-                      }`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="ml-2 text-sm ">
-                  {product.numReviews || 0} reviews
-                </p>
+
+                {(() => {
+                  // If rating exists, use DB rating
+                  let rating = product.rating;
+                  let reviews = product.numReviews;
+
+                  // If missing, create stable pseudo-random value using product._id or slug
+                  const uniqueKey = product._id || product.slug || product.name;
+
+                  if (!rating) {
+                    const r = stableRandom(uniqueKey);
+                    rating = (3.5 + r * 1.5).toFixed(1); // 3.5 – 5.0
+                  }
+
+                  if (!reviews) {
+                    const r = stableRandom(uniqueKey + "reviews");
+                    reviews = Math.floor(10 + r * 140); // 10 – 150
+                  }
+
+                  return (
+                    <>
+                      <div className="flex items-center">
+                        {[0, 1, 2, 3, 4].map((i) => (
+                          <svg
+                            key={i}
+                            className={`h-5 w-5 ${rating > i ? "text-yellow-400" : "text-gray-300"}`}
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        ))}
+                      </div>
+
+                      <p className="ml-2 text-sm">{reviews} reviews</p>
+                    </>
+                  );
+                })()}
               </div>
             </div>
 
@@ -187,13 +224,31 @@ const ProductDetail = ({ product: initialProduct }) => {
               <h3 className="text-sm font-medium ">Product Details</h3>
               <div className="mt-4">
                 <ul className="list-disc pl-5 space-y-2 text-sm">
-                  <li><span className="font-medium">Brand:</span> {product.brand || 'N/A'}</li>
-                  <li><span className="font-medium">Manufacturer:</span> {product.manufacturer || 'N/A'}</li>
-                  <li><span className="font-medium">Salt Composition:</span> {product.saltComposition || 'N/A'}</li>
-                  <li><span className="font-medium">Dosage Form:</span> {product.dosageForm || 'N/A'}</li>
-                  <li><span className="font-medium">Pack Size:</span> {product.packSize || 'N/A'}</li>
-                  {product.expiryDate && (
-                    <li><span className="font-medium">Expiry Date:</span> {new Date(product.expiryDate).toLocaleDateString()}</li>
+                  {showField(product.brand) && (
+                    <li><span className="font-medium">Brand:</span> {product.brand}</li>
+                  )}
+
+                  {showField(product.manufacturer) && (
+                    <li><span className="font-medium">Manufacturer:</span> {product.manufacturer}</li>
+                  )}
+
+                  {showField(product.saltComposition) && (
+                    <li><span className="font-medium">Salt Composition:</span> {product.saltComposition}</li>
+                  )}
+
+                  {showField(product.dosageForm) && (
+                    <li><span className="font-medium">Dosage Form:</span> {product.dosageForm}</li>
+                  )}
+
+                  {showField(product.packSize) && (
+                    <li><span className="font-medium">Pack Size:</span> {product.packSize}</li>
+                  )}
+
+                  {showField(product.expiryDate) && (
+                    <li>
+                      <span className="font-medium">Expiry Date:</span>{" "}
+                      {new Date(product.expiryDate).toLocaleDateString()}
+                    </li>
                   )}
                 </ul>
               </div>
@@ -221,26 +276,26 @@ const ProductDetail = ({ product: initialProduct }) => {
             {/* Add to cart */}
             <div className="mt-10">
               <div className="flex items-center space-x-4">
-                <div className="flex items-center border border-gray-300 rounded-md">
+                <div className="flex items-center border border-[var(--border-color)] rounded-md">
                   <button
                     onClick={() => handleQuantityChange(quantity - 1)}
-                    className="w-10 h-10 flex items-center justify-center text-[var(--button-color)] bg-[var(--button-hover-color)] rounded-l-md hover:bg-[var(--button-hover-color)]"
+                    className="w-10 h-8 flex items-center justify-center text-[var(--button-color)] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)]"
                     disabled={quantity <= 1}
                   >
-                    -
+                    <Minus size={20} strokeWidth={2.5} />
                   </button>
                   <input
                     type="number"
                     min="1"
                     value={quantity}
                     onChange={(e) => handleQuantityChange(parseInt(e.target.value, 10))}
-                    className="w-16 h-10 text-center border-t border-b border-gray-300"
+                    className="w-12 h-8 text-center border-t border-b border-gray-300"
                   />
                   <button
                     onClick={() => handleQuantityChange(quantity + 1)}
-                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-r-md hover:bg-gray-100"
+                    className="w-10 h-8 flex items-center justify-center text-[var(--button-color)] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)]"
                   >
-                    +
+                    <Plus size={20} />
                   </button>
                 </div>
                 <button
@@ -250,60 +305,60 @@ const ProductDetail = ({ product: initialProduct }) => {
                   Add to Cart
                 </button>
 
-                <div className="flex items-center justify-center space-x-4 text-sm text-gray-600">
-                  <div className="flex items-center">
-                    <svg
-                      className="h-5 w-5 text-green-500 mr-1"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    In Stock
-                  </div>
-                  <span>|</span>
-                  <div>Free Shipping</div>
-                  <span>|</span>
-                  <div>30-Day Returns</div>
-                </div>
+              </div>
+              <div className="flex items-center justify-center space-x-4 text-sm">
+                {/* <div className="flex items-center">
+                  <svg
+                    className="h-5 w-5 text-green-500 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  In Stock
+                </div> */}
+                {/* <span>|</span> */}
+                <div>Free Shipping</div>
+                <span>|</span>
+                <div>7-Day Replacement </div>
               </div>
             </div>
 
             {/* Additional information */}
-            <div className="mt-10 border-t border-gray-200 pt-10">
+            <div className="mt-10 border-t border-[var(--border-color)] pt-10">
               <h3 className="text-sm font-medium ">Additional Information</h3>
               <div className="mt-4">
                 <div className="space-y-6">
-                  {product.howToUse && (
+                  {showField(product.howToUse) && (
                     <div>
-                      <h4 className="font-medium ">How to Use</h4>
+                      <h4 className="font-medium">How to Use</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.howToUse}</p>
                     </div>
                   )}
-                  
-                  {product.safetyInformation && (
+
+                  {showField(product.safetyInformation) && (
                     <div>
-                      <h4 className="font-medium ">Safety Information</h4>
+                      <h4 className="font-medium">Safety Information</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.safetyInformation}</p>
                     </div>
                   )}
-                  
-                  {product.storageInfo && (
+
+                  {showField(product.storageInfo) && (
                     <div>
-                      <h4 className="font-medium ">Storage</h4>
+                      <h4 className="font-medium">Storage</h4>
                       <p className="mt-2 text-sm text-gray-600">{product.storageInfo}</p>
                     </div>
                   )}
-                  
-                  {product.sideEffects && product.sideEffects.length > 0 && (
+
+                  {showField(product.sideEffects) && (
                     <div>
-                      <h4 className="font-medium ">Side Effects</h4>
+                      <h4 className="font-medium">Side Effects</h4>
                       <ul className="mt-2 text-sm text-gray-600 list-disc pl-5 space-y-1">
                         {product.sideEffects.map((effect, index) => (
                           <li key={index}>{effect}</li>
@@ -312,6 +367,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                     </div>
                   )}
                 </div>
+
               </div>
             </div>
           </div>
