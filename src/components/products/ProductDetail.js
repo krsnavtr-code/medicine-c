@@ -113,13 +113,17 @@ const ProductDetail = ({ product: initialProduct }) => {
           {/* Product images */}
           <div className="mt-10 lg:mt-0">
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
-              {product.thumbnail || (product.images && product.images[0]?.url) ? (
+              {product.images?.[0]?.url ? (
                 <Image
                   src={product.thumbnail || product.images[0].url}
                   alt={product.name}
                   width={300}
                   height={300}
-                  className="h-full w-full object-cover object-center"
+                  className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/assets/Ayush-Aushadhi-Logo.jpeg';
+                  }}
                 />
               ) : (
                 <div className="h-full w-full flex items-center justify-center bg-gray-100">
