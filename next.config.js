@@ -3,16 +3,19 @@ const nextConfig = {
   // ✅ Allow your LAN IP for mobile testing
   allowedDevOrigins: ['http://0.0.0.0:3000'],
   reactStrictMode: true,
+  // images: {
+  //   domains: ['localhost'],
+  //   remotePatterns: [
+  //     {
+  //       protocol: 'http',
+  //       hostname: 'localhost',
+  //       port: '5000',
+  //       pathname: '/**',
+  //     },
+  //   ],
+  // },
   images: {
-    domains: ['localhost'],
-    remotePatterns: [
-      {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '5000',
-        pathname: '/**',
-      },
-    ],
+    domains: ['the7eagles.com', 'ayushaushadhi.com'],
   },
   async rewrites() {
     return [
