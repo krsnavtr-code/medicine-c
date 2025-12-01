@@ -77,7 +77,7 @@ const ProductList = ({ initialProducts = [] }) => {
               <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200">
                 {product.images?.[0]?.url ? (
                   <Image
-                    src={product.images[0].url}
+                    src={product.thumbnail || product.images[0].url}
                     alt={product.name}
                     width={300}
                     height={300}

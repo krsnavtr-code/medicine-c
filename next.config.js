@@ -15,7 +15,7 @@ const nextConfig = {
   //   ],
   // },
   images: {
-    domains: ['the7eagles.com', 'ayushaushadhi.com'],
+    domains: ['the7eagles.com', 'ayushaushadhi.com', 'firstvite.com'],
   },
   async rewrites() {
     return [
