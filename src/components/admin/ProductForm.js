@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { productAPI } from '@/services/api';
 import { PRODUCT_BRANDS, PRODUCT_CATEGORIES, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES, USE_FOR_GENDER } from '@/config/productConfig';
 
@@ -50,8 +49,6 @@ const ProductForm = ({ product: initialProduct }) => {
   const [currentBenefit, setCurrentBenefit] = useState('');
   const [currentSideEffect, setCurrentSideEffect] = useState('');
   const [currentKeyword, setCurrentKeyword] = useState('');
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const [images, setImages] = useState([]);
 
   // Set form data if in edit mode
   useEffect(() => {
@@ -82,9 +79,6 @@ const ProductForm = ({ product: initialProduct }) => {
         ...productData
       }));
       
-      if (initialProduct.images) {
-        setImages(initialProduct.images);
-      }
     }
   }, [initialProduct, isEditMode]);
 
@@ -178,55 +172,6 @@ const ProductForm = ({ product: initialProduct }) => {
     });
   };
 
-  // Handle image upload
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    // Check file type
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
-      return;
-    }
-
-    // Check file size (max 2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      setError('Image size should be less than 2MB');
-      return;
-    }
-
-    try {
-      setUploadingImage(true);
-      setError('');
-      
-      // Create a temporary URL for the image preview
-      const tempUrl = URL.createObjectURL(file);
-      
-      // In a real app, you would upload the image to your server here
-      // For now, we'll just add it to the local state
-      const newImage = {
-        url: tempUrl,
-        public_id: `temp_${Date.now()}`,
-        isNew: true,
-        file // Keep the file reference for actual upload on form submit
-      };
-      
-      setImages([...images, newImage]);
-    } catch (err) {
-      console.error('Error uploading image:', err);
-      setError('Failed to upload image');
-    } finally {
-      setUploadingImage(false);
-    }
-  };
-
-  // Handle removing an image
-  const removeImage = (index) => {
-    const newImages = [...images];
-    newImages.splice(index, 1);
-    setImages(newImages);
-  };
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -247,29 +192,6 @@ const ProductForm = ({ product: initialProduct }) => {
       if (productData.expiryDate) {
         productData.expiryDate = new Date(productData.expiryDate);
       }
-      
-      // Upload new images first (in a real app)
-      const uploadedImages = [];
-      for (const img of images) {
-        if (img.isNew && img.file) {
-          // In a real app, upload the image to your server here
-          // const uploadedImage = await productAPI.uploadProductImage(productData._id || 'new', img.file);
-          // uploadedImages.push(uploadedImage);
-          
-          // For now, we'll just use the temp URL
-          uploadedImages.push({
-            url: img.url,
-            public_id: img.public_id
-          });
-        } else {
-          uploadedImages.push({
-            url: img.url,
-            public_id: img.public_id
-          });
-        }
-      }
-      
-      productData.images = uploadedImages;
       
       // Create or update the product
       let result;
@@ -613,66 +535,7 @@ const ProductForm = ({ product: initialProduct }) => {
             </div>
 
             {/* Images */}
-            <div className="col-span-2 mt-6">
-              <h3 className="text-lg leading-6 font-medium ">Product Images</h3>
-              <p className="mt-1 text-sm text-[var(--text-color-light)]">Upload product images.</p>
-              <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-                {images.map((image, index) => (
-                  <div key={index} className="relative group">
-                    <div className="relative w-full h-32">
-                      <Image
-                        src={image.url}
-                        alt={`Product ${index + 1}`}
-                        fill
-                        className="object-cover rounded-lg"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
-                  </div>
-                ))}
-                <label className="flex items-center justify-center h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 transition-colors">
-                  <input
-                    type="file"
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    disabled={uploadingImage}
-                  />
-                  {uploadingImage ? (
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"></div>
-                  ) : (
-                    <div className="text-center">
-                      <svg
-                        className="mx-auto h-12 w-12 text-gray-400"
-                        stroke="currentColor"
-                        fill="none"
-                        viewBox="0 0 48 48"
-                        aria-hidden="true"
-                      >
-                        <path
-                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span className="mt-2 block text-sm font-medium ">
-                        Add Image
-                      </span>
-                    </div>
-                  )}
-                </label>
-              </div>
-            </div>
+            
 
             {/* Prescription Info */}
             <div className="col-span-2 mt-6">
