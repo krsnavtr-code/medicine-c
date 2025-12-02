@@ -1,15 +1,15 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Button } from "./ui";
+import Link from "next/link";
 
 const Banner = () => {
   // 🔥 STATIC WEBSITE DATA
   const user = {
     image: "/assets/Logo-Ayush-Aushadhi.png",
     name: "Ayush Aushadhi",
-    tagline: "Your Trusted Online Medicine & Health-Kit Store",
+    tagline: "Your Trusted Health Store",
     description:
-      "Get genuine medicines, health kits, and wellness essentials delivered right to your doorstep.",
+      "Get genuine health kits, and wellness essentials delivered right to your doorstep.",
     role: "Health • Wellness • Medicines",
   };
 
@@ -84,14 +84,12 @@ const Banner = () => {
 
         {/* CTA Buttons */}
         <motion.div variants={itemVariants}>
-          <Button
-            as="a"
-            href="/shop"
-            variant="default"
-            className="px-6 py-3 font-semibold text-lg"
+          <Link
+            href="/products"
+            className="px-6 rounded-[50px] py-3 bg-[var(--button-bg-color)] text-[var(--button-color)] hover:bg-[var(--button-hover-color)] cursor-pointer"
           >
             Shop Now
-          </Button>
+          </Link>
         </motion.div>
 
         {/* Trust Badge */}
