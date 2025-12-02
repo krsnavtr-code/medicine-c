@@ -66,11 +66,11 @@ export default function CartPage() {
       
       {totalItems === 0 ? (
         <div className="text-center py-12">
-          <h2 className="text-2xl font-semibold text-gray-600 mb-4">Your cart is empty</h2>
-          <p className="text-gray-500 mb-6">Looks like you haven&apos;t added anything to your cart yet.</p>
+          <h2 className="text-2xl font-semibold text-[var(--text-color-light)] mb-4">Your cart is empty</h2>
+          <p className=" mb-6">Looks like you haven&apos;t added anything to your cart yet.</p>
           <Link 
             href="/products"
-            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+            className="inline-block bg-[var(--button-bg-color)] text-[var(--button-color)] px-6 py-3 rounded-lg hover:bg-[var(--button-hover-color)] transition-colors"
           >
             Continue Shopping
           </Link>
@@ -78,8 +78,8 @@ export default function CartPage() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow overflow-hidden">
-              <div className="hidden md:grid grid-cols-12 bg-gray-100 p-4 font-medium text-gray-600">
+            <div className="bg-[var(--container-color-in)] rounded-lg shadow overflow-hidden">
+              <div className="hidden md:grid grid-cols-12 p-4 font-medium border-b">
                 <div className="col-span-5">Product</div>
                 <div className="col-span-2 text-center">Price</div>
                 <div className="col-span-3 text-center">Quantity</div>
@@ -92,7 +92,7 @@ export default function CartPage() {
                     <div className="flex items-center space-x-4 col-span-5">
                       <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex-shrink-0">
                         <Image
-                          src={item.product.images?.[0] || '/placeholder-product.jpg'}
+                          src={item.product.thumbnail || item.product.images?.[0]?.url || '/assets/Ayush-Aushadhi-Logo.jpeg'}
                           alt={item.product.name}
                           width={80}
                           height={80}
@@ -100,20 +100,19 @@ export default function CartPage() {
                         />
                       </div>
                       <div>
-                        <h3 className="font-medium text-gray-900">{item.product.name}</h3>
-                        <p className="text-sm text-gray-500">{item.product.brand}</p>
+                        <h3 className="font-medium">{item.product.name}</h3>
                       </div>
                     </div>
                     
-                    <div className="text-gray-700 text-center col-span-2">
-                      ${item.product.price.toFixed(2)}
+                    <div className="text-center col-span-2">
+                      ₹{item.product.price.toFixed(2)}
                     </div>
                     
                     <div className="col-span-3">
                       <div className="flex items-center justify-center">
                         <button 
                           onClick={() => handleQuantityChange(item.product._id, item.quantity - 1)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md hover:bg-gray-100"
+                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md cursor-pointer"
                         >
                           -
                         </button>
@@ -126,7 +125,7 @@ export default function CartPage() {
                         />
                         <button 
                           onClick={() => handleQuantityChange(item.product._id, item.quantity + 1)}
-                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md hover:bg-gray-100"
+                          className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md cursor-pointer"
                         >
                           +
                         </button>
@@ -135,11 +134,11 @@ export default function CartPage() {
                     
                     <div className="flex items-center justify-between col-span-2">
                       <span className="font-medium">
-                        ${(item.product.price * item.quantity).toFixed(2)}
+                        ₹{(item.product.price * item.quantity).toFixed(2)}
                       </span>
                       <button 
                         onClick={() => removeFromCart(item.product._id)}
-                        className="text-red-500 hover:text-red-700"
+                        className="cursor-pointer"
                         aria-label="Remove item"
                       >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -154,32 +153,32 @@ export default function CartPage() {
               <div className="p-4 border-t flex justify-between items-center">
                 <Link 
                   href="/products"
-                  className="text-blue-600 hover:text-blue-800 flex items-center"
+                  className="text-[var(--button-color)] hover:bg-[var(--button-hover-color)] bg-[var(--button-bg-color)] px-1 py-2 rounded-[50px] flex items-center"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
-                  Continue Shopping
+                  Shop More
                 </Link>
                 <button 
                   onClick={clearCart}
-                  className="text-red-500 hover:text-red-700"
+                  className="cursor-pointer"
                   disabled={items.length === 0}
                 >
-                  Clear Cart
+                  Remove all items
                 </button>
               </div>
             </div>
           </div>
           
           <div>
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-[var(--container-color-in)] rounded-lg shadow p-6">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal ({totalItems} items)</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
@@ -193,14 +192,14 @@ export default function CartPage() {
                 <div className="border-t pt-4 mt-4">
                   <div className="flex justify-between font-semibold text-lg">
                     <span>Total</span>
-                    <span>${totalPrice.toFixed(2)}</span>
+                    <span>₹{totalPrice.toFixed(2)}</span>
                   </div>
                 </div>
                 
                 <button
                   onClick={handleCheckout}
                   disabled={isCheckingOut || totalItems === 0}
-                  className={`w-full mt-6 py-3 px-4 rounded-md font-medium text-white ${
+                  className={`w-full mt-6 py-3 px-4 rounded-md font-medium text-white cursor-pointer ${
                     isCheckingOut || totalItems === 0
                       ? 'bg-gray-400 cursor-not-allowed'
                       : 'bg-blue-600 hover:bg-blue-700'
@@ -209,7 +208,7 @@ export default function CartPage() {
                   {isCheckingOut ? 'Processing...' : 'Proceed to Checkout'}
                 </button>
                 
-                <p className="text-xs text-gray-500 mt-2">
+                <p className="text-xs  mt-2">
                   By placing your order, you agree to our Terms of Service and Privacy Policy.
                 </p>
               </div>
