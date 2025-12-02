@@ -542,9 +542,9 @@ const MediaGallery = () => {
           </p>
         </div>
       ) : (
-        <div className="h-[calc(100vh-200px)] grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {filteredFiles.map((file) => (
-            <div key={file._id || file.id} className="group relative h-[00px]">
+            <div key={file._id || file.id} className="">
               <div className="aspect-square bg-[var(--container-color-in)] rounded-md overflow-hidden border border-[var(--border-color)]">
                 {file.type?.startsWith("image") ||
                 file.mimetype?.startsWith("image") ? (
@@ -585,49 +585,54 @@ const MediaGallery = () => {
                     <FiFile className="h-12 w-12 text-[var(--text-color)]" />
                   </div>
                 )}
-
-                <div className="absolute inset-0 bg-transparent bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-                  <button
-                    onClick={() => setSelectedFile(file)}
-                    className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
-                    title="View"
-                  >
-                    <FiImage className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDownload(file._id || file.id)}
-                    className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
-                    title="Download"
-                  >
-                    <FiDownload className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      const fileUrl = file.path
-                        ? `https://ayushaushadhi.com/api${file.path}`
-                        : `"${file.url}"`;
-                      navigator.clipboard.writeText(fileUrl);
-                      toast.success(
-                        "URL with environment variable copied to clipboard!"
-                      );
-                    }}
-                    className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
-                    title="Copy URL"
-                  >
-                    <FiCopy className="h-4 w-4" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(file._id || file.id)}
-                    className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
-                    title="Delete"
-                  >
-                    <FiTrash2 className="h-4 w-4" />
-                  </button>
-                </div>
               </div>
+
+              {/* Action buttons */}
+              <div className="flex align-center justify-between mt-2">
+                <button
+                  onClick={() => setSelectedFile(file)}
+                  className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
+                  title="View"
+                >
+                  <FiImage className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => handleDownload(file._id || file.id)}
+                  className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
+                  title="Download"
+                >
+                  <FiDownload className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => {
+                    const fileUrl = file.path
+                      ? `https://ayushaushadhi.com/api${file.path}`
+                      : `"${file.url}"`;
+                    navigator.clipboard.writeText(fileUrl);
+                    toast.success(
+                      "URL with environment variable copied to clipboard!"
+                    );
+                  }}
+                  className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
+                  title="Copy URL"
+                >
+                  <FiCopy className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={() => handleDelete(file._id || file.id)}
+                  className="p-2 bg-[var(--container-color-in)] border-[var(--text-color)] border-[1px] bg-opacity-90 rounded-full hover:bg-opacity-100 cursor-pointer"
+                  title="Delete"
+                >
+                  <FiTrash2 className="h-4 w-4" />
+                </button>
+              </div>
+
+              {/* File name */}
               <div className="mt-2 text-xs text-[var(--text-color)] truncate">
                 {file.originalname}
               </div>
+
+              {/* Tags */}
               <div className="flex flex-wrap mt-1">
                 {file.tags?.map((tag) => renderTag(tag, file.id || file._id))}
                 <button
@@ -673,6 +678,7 @@ const MediaGallery = () => {
                 </div>
               )}
 
+              {/* File size */}
               <div className="text-xs text-[var(--text-color)] mt-1">
                 {formatFileSize(file.size)}
               </div>
