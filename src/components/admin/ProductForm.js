@@ -89,13 +89,33 @@ const ProductForm = ({ product: initialProduct }) => {
     }
   }, [initialProduct, isEditMode]);
 
-  // Handle image URL change and preview
-  const handleImageUrlChange = (e) => {
-    const url = e.target.value;
+  // Handle adding a new image URL
+  const handleAddImageUrl = (e) => {
+    e.preventDefault();
+    const url = e.target.elements.newImageUrl.value.trim();
+    if (url) {
+      const newImage = { url };
+      const updatedImages = [...(formData.images || []), newImage];
+      setFormData({
+        ...formData,
+        images: updatedImages
+      });
+      e.target.reset();
+    }
+  };
+
+  // Handle removing an image
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...formData.images];
+    updatedImages.splice(index, 1);
     setFormData({
       ...formData,
-      images: url ? [{ url }] : []
+      images: updatedImages
     });
+  };
+
+  // Set the main preview image
+  const setMainPreview = (url) => {
     setImagePreview(url);
   };
 
@@ -228,7 +248,8 @@ const ProductForm = ({ product: initialProduct }) => {
       // Reset form if not in edit mode
       if (!isEditMode) {
         setFormData({
-          imageUrl: '',
+          productType: 'single',
+          images: [],
           name: '',
           brand: '',
           description: '',
@@ -257,10 +278,9 @@ const ProductForm = ({ product: initialProduct }) => {
           isActive: true,
           metaTitle: '',
           metaDescription: '',
-          metaKeywords: [],
-          imageUrl: ''
+          metaKeywords: []
         });
-        setImages([]);
+        setImagePreview('');
       }
     } catch (err) {
       console.error('Error saving product:', err);
@@ -315,12 +335,12 @@ const ProductForm = ({ product: initialProduct }) => {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Image Upload */}
             <div className="space-y-6">
-              <h3 className="text-lg font-medium leading-6 text-gray-900">Product Image</h3>
+              <h3 className="text-lg font-medium leading-6">Product Image</h3>
               <div className="space-y-4">
                 {/* Image Preview */}
                 {imagePreview && (
                   <div className="mt-2">
-                    <p className="block text-sm font-medium text-gray-700 mb-1">Preview:</p>
+                    <p className="block text-sm font-medium mb-1">Preview:</p>
                     <div className="mt-1 flex items-center">
                       <img
                         src={imagePreview}
@@ -337,33 +357,90 @@ const ProductForm = ({ product: initialProduct }) => {
 
                 {/* Image URL Input */}
                 <div>
-                  <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-700">
-                    Image URL
+                  <label className="block text-sm font-medium">
+                    Product Images
                   </label>
-                  <div className="mt-1 flex rounded-md shadow-sm">
+
+                  {/* Add New Image URL Input */}
+                  <div className="mt-2 flex rounded-md shadow-sm">
                     <input
                       type="url"
-                      name="imageUrl"
-                      id="imageUrl"
-                      value={formData.images && formData.images[0] ? formData.images[0].url : ''}
-                      onChange={handleImageUrlChange}
-                      className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-md sm:text-sm border-gray-300"
+                      name="newImageUrl"
+                      className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-l-md sm:text-sm border-gray-300"
                       placeholder="https://example.com/image.jpg"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          const url = e.target.value.trim();
+                          if (url) {
+                            const newImage = { url };
+                            const updatedImages = [...(formData.images || []), newImage];
+                            setFormData({
+                              ...formData,
+                              images: updatedImages
+                            });
+                            e.target.value = '';
+                          }
+                        }
+                      }}
                     />
                     <button
                       type="button"
-                      onClick={() => {
-                        setFormData({ ...formData, images: [] });
-                        setImagePreview('');
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const input = e.target.previousSibling;
+                        const url = input.value.trim();
+                        if (url) {
+                          const newImage = { url };
+                          const updatedImages = [...(formData.images || []), newImage];
+                          setFormData({
+                            ...formData,
+                            images: updatedImages
+                          });
+                          input.value = '';
+                        }
                       }}
-                      className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-r-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     >
-                      Clear
+                      Add Image
                     </button>
                   </div>
-                  <p className="mt-2 text-sm text-gray-500">
-                    Enter the URL of the product image
-                  </p>
+
+                  {/* Image Thumbnails */}
+                  {formData.images && formData.images.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm font-medium mb-2">Uploaded Images:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {formData.images.map((image, index) => (
+                          <div key={index} className="relative group">
+                            <img
+                              src={image.url}
+                              alt={`Product ${index + 1}`}
+                              className={`h-16 w-16 object-cover rounded-md border-2 ${imagePreview === image.url ? 'border-indigo-500' : 'border-gray-200'}`}
+                              onClick={() => setMainPreview(image.url)}
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                e.target.src = 'https://via.placeholder.com/100?text=Image+Error';
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              title="Remove image"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="mt-2 text-xs text-gray-500">
+                        Click on an image to set as main preview. Click the × to remove.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
