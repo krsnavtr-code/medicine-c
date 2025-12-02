@@ -100,7 +100,9 @@ export default function CartPage() {
                         />
                       </div>
                       <div>
-                        <h3 className="font-medium">{item.product.name}</h3>
+                        <Link href={`/products/${item.product._id}`} className="hover:text-blue-600 transition-colors">
+                          <h3 className="font-medium">{item.product.name}</h3>
+                        </Link>
                       </div>
                     </div>
                     

@@ -17,7 +17,8 @@ const ProductDetail = ({ product: initialProduct }) => {
   const [quantity, setQuantity] = useState(1);
   const [addingToCart, setAddingToCart] = useState(false);
 
-  const { addToCart } = useCart();
+  const { addToCart, items: cartItems } = useCart();
+  const isInCart = cartItems.some(item => item.product._id === product?._id);
 
   // If no initial product is provided, fetch it from the API
   useEffect(() => {
@@ -59,6 +60,10 @@ const ProductDetail = ({ product: initialProduct }) => {
     } finally {
       setAddingToCart(false);
     }
+  };
+
+  const handleGoToCart = () => {
+    router.push('/cart');
   };
 
   const handleQuantityChange = (newQuantity) => {
@@ -343,12 +348,22 @@ const ProductDetail = ({ product: initialProduct }) => {
                     <Plus size={20} />
                   </button>
                 </div>
-                <button
-                  onClick={handleAddToCart}
-                  className="flex-1 max-w-[200px] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)] text-[var(--button-color)] py-2 px-6 rounded-md font-medium transition-colors cursor-pointer"
-                >
-                  Add to Cart
-                </button>
+                {isInCart ? (
+                  <button
+                    onClick={handleGoToCart}
+                    className="flex-1 max-w-[200px] bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-md font-medium transition-colors cursor-pointer"
+                  >
+                    Go to Cart
+                  </button>
+                ) : (
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={addingToCart}
+                      className="flex-1 max-w-[200px] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)] text-[var(--button-color)] py-2 px-6 rounded-md font-medium transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {addingToCart ? 'Adding...' : 'Add to Cart'}
+                    </button>
+                )}
 
               </div>
               <div className="flex items-center justify-center space-x-4 text-sm">
