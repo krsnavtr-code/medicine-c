@@ -12,34 +12,62 @@ export default function AdminProductsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const [deleteConfirm, setDeleteConfirm] = useState(null);
   const [deleting, setDeleting] = useState(false);
-
-  const limit = 10;
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
-    fetchProducts();
-  }, [currentPage, searchTerm]);
+    // Reset products and page when search term changes
+    setProducts([]);
+    setPage(1);
+    setHasMore(true);
+    fetchProducts(true);
+  }, [searchTerm]);
 
-  const fetchProducts = async () => {
+  // Initial load and when page changes
+  useEffect(() => {
+    if (page === 1) return; // Skip initial load as it's handled by search term effect
+    fetchProducts(false);
+  }, [page, searchTerm]);
+
+  // Set up scroll event listener
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore, isLoadingMore]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop >=
+        document.documentElement.offsetHeight - 200 &&
+      hasMore &&
+      !isLoadingMore
+    ) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const fetchProducts = async (reset = false) => {
     try {
-      setLoading(true);
-      const params = {
-        page: currentPage,
-        limit,
-        ...(searchTerm && { name: searchTerm })
-      };
-      
-      const { data, pagination } = await productAPI.getProducts(params);
-      setProducts(data);
-      setTotalPages(Math.ceil(pagination.total / limit));
+      if (reset) {
+        setLoading(true);
+      } else {
+        setIsLoadingMore(true);
+      }
+
+      const { data } = await productAPI.getProducts();
+
+      setProducts((prevProducts) =>
+        reset ? data : [...prevProducts, ...data]
+      );
     } catch (err) {
-      console.error('Error fetching products:', err);
-      setError('Failed to load products');
+      console.error("Error fetching products:", err);
+      setError("Failed to load products");
     } finally {
       setLoading(false);
+      setIsLoadingMore(false);
     }
   };
 
@@ -48,32 +76,25 @@ export default function AdminProductsPage() {
       try {
         setDeleting(id);
         await productAPI.deleteProduct(id);
-        setProducts(products.filter(product => product._id !== id));
+        setProducts(products.filter((product) => product._id !== id));
         setDeleteConfirm(null);
       } catch (err) {
-        console.error('Error deleting product:', err);
-        setError('Failed to delete product');
+        console.error("Error deleting product:", err);
+        setError("Failed to delete product");
       } finally {
         setDeleting(false);
       }
     } else {
       setDeleteConfirm(id);
-      // Auto-cancel delete confirmation after 3 seconds
       setTimeout(() => {
         setDeleteConfirm(null);
       }, 3000);
     }
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    window.scrollTo(0, 0);
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
-    setCurrentPage(1);
-    fetchProducts();
+    // Reset state is handled in the search term effect
   };
 
   if (loading && products.length === 0) {
@@ -126,6 +147,7 @@ export default function AdminProductsPage() {
           <table className="min-w-full divide-y divide-[var(--border-color)]">
             <thead className="bg-[var(--container-color-in)]">
               <tr>
+                <th>S.No</th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-[var(--text-color)] uppercase tracking-wider"
@@ -167,16 +189,17 @@ export default function AdminProductsPage() {
             <tbody className="bg-[var(--container-color-in)] divide-y divide-[var(--border-color)]">
               {products.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="px-6 py-4 text-center text-sm ">
+                  <td colSpan="7" className="px-6 py-4 text-center text-sm ">
                     No products found
                   </td>
                 </tr>
               ) : (
-                products.map((product) => (
+                products.map((product, index) => (
                   <tr
                     key={product._id}
                     className="hover:bg-[var(--container-color)] bg-[var(--container-color-in)]"
                   >
+                    <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
                         <div className="flex-shrink-0 h-10 w-10">
@@ -318,113 +341,15 @@ export default function AdminProductsPage() {
           </table>
         </div>
 
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-            <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-              <div>
-                <p className="text-sm text-gray-700">
-                  Showing{" "}
-                  <span className="font-medium">
-                    {(currentPage - 1) * limit + 1}
-                  </span>{" "}
-                  to{" "}
-                  <span className="font-medium">
-                    {Math.min(
-                      currentPage * limit,
-                      products.length + (currentPage - 1) * limit
-                    )}
-                  </span>{" "}
-                  of{" "}
-                  <span className="font-medium">
-                    {products.length + (currentPage - 1) * limit}
-                  </span>{" "}
-                  results
-                </p>
-              </div>
-              <div>
-                <nav
-                  className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-                  aria-label="Pagination"
-                >
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
-                      currentPage === 1 ? "text-gray-300" : " hover:bg-gray-50"
-                    }`}
-                  >
-                    <span className="sr-only">Previous</span>
-                    <svg
-                      className="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    // Show pages around current page
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
-
-                    return (
-                      <button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
-                          currentPage === pageNum
-                            ? "z-10 bg-indigo-50 border-indigo-500 text-indigo-600"
-                            : "bg-white border-gray-300  hover:bg-gray-50"
-                        }`}
-                      >
-                        {pageNum}
-                      </button>
-                    );
-                  })}
-
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
-                      currentPage === totalPages
-                        ? "text-gray-300"
-                        : " hover:bg-gray-50"
-                    }`}
-                  >
-                    <span className="sr-only">Next</span>
-                    <svg
-                      className="h-5 w-5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </nav>
-              </div>
-            </div>
+        {/* Loading indicator at bottom */}
+        {(isLoadingMore || (loading && products.length > 0)) && (
+          <div className="flex justify-center py-4">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
+        )}
+        {!hasMore && products.length > 0 && (
+          <div className="text-center py-4 text-sm text-gray-500">
+            No more products to load
           </div>
         )}
       </div>
