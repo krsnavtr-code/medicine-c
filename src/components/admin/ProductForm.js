@@ -89,21 +89,6 @@ const ProductForm = ({ product: initialProduct }) => {
     }
   }, [initialProduct, isEditMode]);
 
-  // Handle adding a new image URL
-  const handleAddImageUrl = (e) => {
-    e.preventDefault();
-    const url = e.target.elements.newImageUrl.value.trim();
-    if (url) {
-      const newImage = { url };
-      const updatedImages = [...(formData.images || []), newImage];
-      setFormData({
-        ...formData,
-        images: updatedImages
-      });
-      e.target.reset();
-    }
-  };
-
   // Handle removing an image
   const handleRemoveImage = (index) => {
     const updatedImages = [...formData.images];
@@ -330,7 +315,7 @@ const ProductForm = ({ product: initialProduct }) => {
         </div>
       )}
 
-      <div className="bg-[var(--container-color-in)] shadow overflow-hidden sm:rounded-lg">
+      <div className="bg-[var(--container-color-in)] shadow sm:rounded-lg">
         <form onSubmit={handleSubmit} className="space-y-6 p-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Image Upload */}
@@ -436,7 +421,7 @@ const ProductForm = ({ product: initialProduct }) => {
                           </div>
                         ))}
                       </div>
-                      <p className="mt-2 text-xs text-gray-500">
+                      <p className="mt-2 text-xs">
                         Click on an image to set as main preview. Click the × to remove.
                       </p>
                     </div>
@@ -482,13 +467,28 @@ const ProductForm = ({ product: initialProduct }) => {
             </div>
 
             <div className="sm:col-span-2">
+              <label htmlFor="shortDescription" className="block text-sm font-medium ">
+                Short Description
+              </label>
+              <textarea
+                id="shortDescription"
+                name="shortDescription"
+                rows={3}
+                value={formData.shortDescription}
+                onChange={handleChange}
+                className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                placeholder="Product Short Description"
+              />
+            </div>
+
+            <div className="sm:col-span-2">
               <label htmlFor="description" className="block text-sm font-medium ">
                 Description
               </label>
               <textarea
                 id="description"
                 name="description"
-                rows={3}
+                rows={8}
                 value={formData.description}
                 onChange={handleChange}
                 className="mt-1 block w-full border border-gray-300 rounded-md bg-[var(--container-color)] shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

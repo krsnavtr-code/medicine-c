@@ -310,30 +310,13 @@ const ProductDetail = ({ product: initialProduct }) => {
                 </div>
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md font-medium transition-colors"
+                  className="flex-1 max-w-[200px] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)] text-[var(--button-color)] py-2 px-6 rounded-md font-medium transition-colors cursor-pointer"
                 >
                   Add to Cart
                 </button>
 
               </div>
               <div className="flex items-center justify-center space-x-4 text-sm">
-                {/* <div className="flex items-center">
-                  <svg
-                    className="h-5 w-5 text-green-500 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  In Stock
-                </div> */}
-                {/* <span>|</span> */}
                 <div>Free Shipping</div>
                 <span>|</span>
                 <div>7-Day Replacement </div>
@@ -348,28 +331,28 @@ const ProductDetail = ({ product: initialProduct }) => {
                   {showField(product.howToUse) && (
                     <div>
                       <h4 className="font-medium">How to Use</h4>
-                      <p className="mt-2 text-sm text-gray-600">{product.howToUse}</p>
+                      <p className="mt-2 text-sm">{product.howToUse}</p>
                     </div>
                   )}
 
                   {showField(product.safetyInformation) && (
                     <div>
                       <h4 className="font-medium">Safety Information</h4>
-                      <p className="mt-2 text-sm text-gray-600">{product.safetyInformation}</p>
+                      <p className="mt-2 text-sm">{product.safetyInformation}</p>
                     </div>
                   )}
 
                   {showField(product.storageInfo) && (
                     <div>
                       <h4 className="font-medium">Storage</h4>
-                      <p className="mt-2 text-sm text-gray-600">{product.storageInfo}</p>
+                      <p className="mt-2 text-sm">{product.storageInfo}</p>
                     </div>
                   )}
 
                   {showField(product.sideEffects) && (
                     <div>
                       <h4 className="font-medium">Side Effects</h4>
-                      <ul className="mt-2 text-sm text-gray-600 list-disc pl-5 space-y-1">
+                      <ul className="mt-2 text-sm list-disc pl-5 space-y-1">
                         {product.sideEffects.map((effect, index) => (
                           <li key={index}>{effect}</li>
                         ))}
