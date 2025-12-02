@@ -153,6 +153,14 @@ const ProductDetail = ({ product: initialProduct }) => {
                 ))}
               </div>
             )}
+
+            <div className="mt-6">
+              <div className="space-y-6 text-base">
+                {showField(product.shortDescription) && (
+                  <p>{product.shortDescription}</p>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Product info */}
@@ -225,7 +233,9 @@ const ProductDetail = ({ product: initialProduct }) => {
             <div className="mt-6">
               <h3 className="sr-only">Description</h3>
               <div className="space-y-6 text-base">
-                {product.shortDescription || product.description}
+                {showField(product.description) && (
+                  <p>{product.description}</p>
+                )}
               </div>
             </div>
 
@@ -234,24 +244,28 @@ const ProductDetail = ({ product: initialProduct }) => {
               <h3 className="text-sm font-medium ">Product Details</h3>
               <div className="mt-4">
                 <ul className="list-disc pl-5 space-y-2 text-sm">
-                  {showField(product.brand) && (
-                    <li><span className="font-medium">Brand:</span> {product.brand}</li>
+                  {showField(product.unit) && (
+                    <li><span className="font-medium">Type:</span> {product.unit}</li>
+                  )}
+
+                  {showField(product.saltComposition) && (
+                    <li><span className="font-medium">Salt:</span> {product.saltComposition}</li>
                   )}
 
                   {showField(product.manufacturer) && (
                     <li><span className="font-medium">Manufacturer:</span> {product.manufacturer}</li>
                   )}
 
-                  {showField(product.saltComposition) && (
-                    <li><span className="font-medium">Salt Composition:</span> {product.saltComposition}</li>
+                  {showField(product.useFor) && (
+                    <li><span className="font-medium">Use For:</span> {product.useFor}</li>
                   )}
 
                   {showField(product.dosageForm) && (
-                    <li><span className="font-medium">Dosage Form:</span> {product.dosageForm}</li>
+                    <li><span className="font-medium">Consume:</span> {product.dosageForm}</li>
                   )}
 
                   {showField(product.packSize) && (
-                    <li><span className="font-medium">Pack Size:</span> {product.packSize}</li>
+                    <li><span className="font-medium">Product Left:</span> {product.packSize}</li>
                   )}
 
                   {showField(product.expiryDate) && (
@@ -260,6 +274,27 @@ const ProductDetail = ({ product: initialProduct }) => {
                       {new Date(product.expiryDate).toLocaleDateString()}
                     </li>
                   )}
+
+                  {showField(product.benefits) && (
+                    <li><span className="font-medium">Benefits:</span>
+                    <ul className="mt-2 text-sm list-disc pl-5 space-y-1">
+                        {product.benefits.map((benefit, index) => (
+                          <li key={index}>{benefit}</li>
+                        ))}
+                      </ul>
+                    </li>
+                  )}
+
+                  {showField(product.sideEffects) && (
+                    <li><span className="font-medium">Side Effects:</span>
+                    <ul className="mt-2 text-sm list-disc pl-5 space-y-1">
+                        {product.sideEffects.map((effect, index) => (
+                          <li key={index}>{effect}</li>
+                        ))}
+                      </ul>
+                    </li>
+                  )}
+
                 </ul>
               </div>
             </div>
@@ -346,17 +381,6 @@ const ProductDetail = ({ product: initialProduct }) => {
                     <div>
                       <h4 className="font-medium">Storage</h4>
                       <p className="mt-2 text-sm">{product.storageInfo}</p>
-                    </div>
-                  )}
-
-                  {showField(product.sideEffects) && (
-                    <div>
-                      <h4 className="font-medium">Side Effects</h4>
-                      <ul className="mt-2 text-sm list-disc pl-5 space-y-1">
-                        {product.sideEffects.map((effect, index) => (
-                          <li key={index}>{effect}</li>
-                        ))}
-                      </ul>
                     </div>
                   )}
                 </div>
