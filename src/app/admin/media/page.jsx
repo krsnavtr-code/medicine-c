@@ -604,7 +604,7 @@ const MediaGallery = () => {
                   <button
                     onClick={() => {
                       const fileUrl = file.path
-                        ? `process.env.NEXT_PUBLIC_API_URL + "${file.path}"`
+                        ? `https://ayushaushadhi.com/api${file.path}`
                         : `"${file.url}"`;
                       navigator.clipboard.writeText(fileUrl);
                       toast.success(
