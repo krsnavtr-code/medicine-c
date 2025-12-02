@@ -110,16 +110,16 @@ const ProductDetail = ({ product: initialProduct }) => {
     <div className="">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="lg:grid lg:grid-cols-2 lg:gap-x-8">
-          {/* Product images */}
+          {/* Product images show*/}
           <div className="mt-10 lg:mt-0">
             <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
-              {product.images?.[0]?.url ? (
+              {product.images?.[selectedImage]?.url ? (
                 <Image
-                  src={product.thumbnail || product.images[0].url}
+                  src={product.images[selectedImage].url}
                   alt={product.name}
-                  width={300}
-                  height={300}
-                  className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  width={600}
+                  height={600}
+                  className="h-full w-full object-contain object-center group-hover:scale-105 transition-transform duration-300"
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = '/assets/Ayush-Aushadhi-Logo.jpeg';
@@ -132,6 +132,7 @@ const ProductDetail = ({ product: initialProduct }) => {
               )}
             </div>
 
+            {/* All images */}
             {product.images && product.images.length > 1 && (
               <div className="mt-6 grid grid-cols-4 gap-4">
                 {product.images.map((image, index) => (
@@ -146,7 +147,7 @@ const ProductDetail = ({ product: initialProduct }) => {
                       alt={`${product.name} - ${index + 1}`}
                       width={100}
                       height={100}
-                      className="h-24 w-full object-cover object-center"
+                      className="h-24 w-full object-cover object-center cursor-pointer hover:opacity-80 transition-opacity"
                     />
                   </button>
                 ))}
