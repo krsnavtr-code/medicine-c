@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { productAPI } from '@/services/api';
+import { FiArrowRight } from 'react-icons/fi';
 
 const HomeProduct = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -15,7 +16,7 @@ const HomeProduct = () => {
       try {
         setLoading(true);
         const response = await productAPI.getProducts({
-          limit: 8, // Show up to 8 featured products
+          limit: 12, // Show up to 8 featured products
           isFeatured: true,
           isActive: true,
           isDeleted: false,
@@ -70,7 +71,7 @@ const HomeProduct = () => {
             Discover our handpicked selection of premium products
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {featuredProducts.map((product) => (
             <Link
@@ -80,7 +81,11 @@ const HomeProduct = () => {
             >
               <div className="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg">
                 <Image
-                  src={product.thumbnail || product.images?.[0]?.url || '/assets/Ayush-Aushadhi-Logo.jpeg'}
+                  src={
+                    product.thumbnail ||
+                    product.images?.[0]?.url ||
+                    "/assets/Ayush-Aushadhi-Logo.jpeg"
+                  }
                   alt={product.name}
                   width={400}
                   height={400}
@@ -88,16 +93,14 @@ const HomeProduct = () => {
                 />
               </div>
               <div className="mt-4 flex-1 flex flex-col">
-                <h3 className="text-lg font-medium ">
-                  {product.name}
-                </h3>
+                <h3 className="text-lg font-medium ">{product.name}</h3>
                 {product.description && (
                   <p className="mt-1 text-sm line-clamp-2">
                     {product.description}
                   </p>
                 )}
                 <div className="mt-2 flex items-center justify-between">
-                  <p className="text-lg font-semibold text-indigo-600">
+                  <p className="text-lg font-semibold">
                     ₹{product.salePrice || product.price}
                     {product.salePrice && product.price > product.salePrice && (
                       <span className="ml-2 text-sm text-gray-500 line-through">
@@ -114,6 +117,16 @@ const HomeProduct = () => {
               </div>
             </Link>
           ))}
+        </div>
+
+        {/* View All products */}
+        <div className="mt-4 flex justify-center">
+          <Link
+            href="/products"
+            className="inline-flex items-center text-sm font-medium px-2 py-1 rounded-lg text-[var(--button-color)] bg-[var(--button-bg-color)] hover:bg-[var(--button-hover-color)]"
+          >
+            View All products <FiArrowRight className="ml-1 h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

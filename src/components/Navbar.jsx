@@ -47,6 +47,7 @@ function Navbar() {
     { name: "Products", path: "/products" },
     // { name: "Health Packages", path: "/health-packages" },
     { name: "Blog", path: "/blog" },
+    { name: "Consult Expert", path: "/expert-talk" },
   ];
 
   const handleLogout = async () => {
