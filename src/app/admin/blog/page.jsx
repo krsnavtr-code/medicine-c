@@ -445,7 +445,7 @@ export default function BlogList() {
                 <tr>
                   <td
                     colSpan="4"
-                    className="px-6 py-4 text-center text-sm text-gray-500"
+                    className="px-6 py-4 text-center text-sm "
                   >
                     No blog posts found. Create your first blog post!
                   </td>

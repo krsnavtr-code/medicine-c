@@ -2,26 +2,27 @@
 
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
 import DashboardStats from '@/components/admin/DashboardStats';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
   useEffect(() => {
     const fetchStats = async () => {
       try {
         const [usersRes, contactsRes] = await Promise.all([
-          axios.get(`${API_URL}/api/v1/admin/dashboard`),
-          axios.get(`${API_URL}/api/v1/admin/contacts/stats`)
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/dashboard`, {
+            credentials: 'include'
+          }).then(res => res.json()),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/admin/contacts/stats`, {
+            credentials: 'include'
+          }).then(res => res.json())
         ]);
 
         setStats({
-          users: usersRes.data.data.stats,
-          contacts: contactsRes.data.data.stats
+          users: usersRes.data.stats,
+          contacts: contactsRes.data.stats
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
     };
 
     fetchStats();
-  }, [API_URL]);
+  });
 
   if (loading) {
     return (

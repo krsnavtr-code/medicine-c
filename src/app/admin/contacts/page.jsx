@@ -5,21 +5,19 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FiMail, FiSearch, FiFilter, FiChevronRight } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
-import ContactStats from '@/components/admin/ContactStats';
-import ContactListItem from '@/components/admin/ContactListItem';
+import { contactsAPI } from "@/services/contactsApi";
+import ContactStats from "@/components/admin/ContactStats";
+import ContactListItem from "@/components/admin/ContactListItem";
 
-const statusFilters = ['all', 'new', 'read', 'replied', 'archived'];
+const statusFilters = ["all", "new", "read", "replied", "archived"];
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [stats, setStats] = useState(null);
   const router = useRouter();
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     fetchContacts();
@@ -29,13 +27,13 @@ const ContactsPage = () => {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts`, {
-        params: { status: statusFilter === 'all' ? '' : statusFilter }
-      });
-      setContacts(data.data.contacts);
+      const response = await contactsAPI.getContacts(
+        statusFilter === "all" ? "" : statusFilter
+      );
+      setContacts(response.data.contacts);
     } catch (error) {
-      console.error('Error fetching contacts:', error);
-      toast.error('Failed to load contacts');
+      console.error("Error fetching contacts:", error);
+      toast.error(error.message || "Failed to load contacts");
     } finally {
       setLoading(false);
     }
@@ -43,31 +41,31 @@ const ContactsPage = () => {
 
   const fetchStats = async () => {
     try {
-      const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts/stats`);
-      setStats(data.data.stats);
+      const response = await contactsAPI.getStats();
+      setStats(response.data.stats);
     } catch (error) {
-      console.error('Error fetching stats:', error);
+      console.error("Error fetching stats:", error);
     }
   };
 
   const handleStatusUpdate = async (id, newStatus) => {
     try {
-      await axios.patch(`${API_URL}/api/v1/admin/contacts/${id}`, {
-        status: newStatus,
-      });
+      await contactsAPI.updateContactStatus(id, newStatus);
       await fetchContacts();
       await fetchStats();
-      toast.success('Status updated successfully');
+      toast.success("Status updated successfully");
     } catch (error) {
-      console.error('Error updating status:', error);
-      toast.error('Failed to update status');
+      console.error("Error updating status:", error);
+      toast.error("Failed to update status");
     }
   };
 
-  const filteredContacts = contacts.filter(contact => 
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (contact.subject && contact.subject.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredContacts = contacts.filter(
+    (contact) =>
+      contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (contact.subject &&
+        contact.subject.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -75,7 +73,9 @@ const ContactsPage = () => {
       <div className="flex flex-col text-[var(--text-color)] md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
           <h1 className="text-2xl font-bold">Contact Submissions</h1>
-          <p className="text-[var(--text-color-light)]">Manage and respond to contact form submissions</p>
+          <p className="text-[var(--text-color-light)]">
+            Manage and respond to contact form submissions
+          </p>
         </div>
       </div>
 
@@ -95,7 +95,7 @@ const ContactsPage = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          
+
           <div className="flex items-center gap-2 w-full md:w-auto">
             <FiFilter className="h-4 w-4 text-[var(--text-color)]" />
             <select
@@ -103,7 +103,7 @@ const ContactsPage = () => {
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
-              {statusFilters.map(filter => (
+              {statusFilters.map((filter) => (
                 <option key={filter} value={filter}>
                   {filter.charAt(0).toUpperCase() + filter.slice(1)}
                 </option>
@@ -124,9 +124,9 @@ const ContactsPage = () => {
           ) : (
             <ul className="divide-y divide-[var(--border-color)]">
               {filteredContacts.map((contact) => (
-                <ContactListItem 
-                  key={contact._id} 
-                  contact={contact} 
+                <ContactListItem
+                  key={contact._id}
+                  contact={contact}
                   onStatusUpdate={handleStatusUpdate}
                 />
               ))}
@@ -136,6 +136,6 @@ const ContactsPage = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ContactsPage;

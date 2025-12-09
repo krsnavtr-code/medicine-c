@@ -172,7 +172,7 @@ export default function ITCategoriesPage() {
       <div className="flex justify-between items-center mb-6">
         <div>
           <h1 className="text-3xl font-bold">IT Categories</h1>
-          <p className="text-gray-500">Manage your IT skill categories</p>
+          <p className="">Manage your IT skill categories</p>
         </div>
         <button
           onClick={() => setModalOpen(true)}
@@ -221,7 +221,7 @@ export default function ITCategoriesPage() {
                   </tr>
                 ) : categories.length === 0 ? (
                   <tr>
-                    <td colSpan="5" className="text-center py-8 text-gray-500">
+                    <td colSpan="5" className="text-center py-8">
                       No categories found
                     </td>
                   </tr>
@@ -232,7 +232,7 @@ export default function ITCategoriesPage() {
                         <GripVertical className="h-4 w-4" />
                       </td>
                       <td className="p-2 font-medium">{cat.name}</td>
-                      <td className="p-2 text-gray-500">
+                      <td className="p-2">
                         {cat.description || "No description"}
                       </td>
                       <td className="p-2">

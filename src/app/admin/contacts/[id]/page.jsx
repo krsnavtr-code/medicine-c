@@ -11,8 +11,8 @@ import {
   FiArchive,
   FiInbox,
 } from "react-icons/fi";
-import axios from "axios";
 import { toast } from "react-hot-toast";
+import { contactsAPI } from "@/services/contactsApi";
 
 export default function ContactDetailsPage() {
   const { id } = useParams();
@@ -21,18 +21,16 @@ export default function ContactDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState("");
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
   useEffect(() => {
     const fetchContact = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${API_URL}/api/v1/admin/contacts/${id}`);
-        setContact(data.data.contact);
-        setStatus(data.data.contact.status);
+        const response = await contactsAPI.getContact(id);
+        setContact(response.data.contact);
+        setStatus(response.data.contact.status);
       } catch (error) {
         console.error("Error fetching contact:", error);
-        toast.error("Failed to load contact details");
+        toast.error(error.message || "Failed to load contact details");
       } finally {
         setLoading(false);
       }
@@ -46,14 +44,12 @@ export default function ContactDetailsPage() {
   const updateStatus = async (newStatus) => {
     try {
       setStatus(newStatus);
-      await axios.patch(`${API_URL}/api/v1/admin/contacts/${id}`, {
-        status: newStatus,
-      });
+      await contactsAPI.updateContactStatus(id, newStatus);
       toast.success("Status updated successfully");
       router.refresh();
     } catch (error) {
       console.error("Error updating status:", error);
-      toast.error("Failed to update status");
+      toast.error(error.message || "Failed to update status");
     }
   };
 

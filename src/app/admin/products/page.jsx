@@ -201,44 +201,24 @@ export default function AdminProductsPage() {
                   >
                     <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 h-10 w-10">
-                          {product.thumbnail ||
-                          (product.images && product.images[0]?.url) ? (
-                            <img
-                              className="h-10 w-10 rounded-md object-cover"
-                              src={product.thumbnail || product.images[0].url}
-                              alt={product.name}
-                            />
-                          ) : (
-                            <div className="h-10 w-10 rounded-md bg-gray-200 flex items-center justify-center">
-                              <span className="text-xs ">No Image</span>
-                            </div>
-                          )}
+                      <div className="">
+                        <div className="text-sm font-medium ">
+                          {product.name}
                         </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
-                            {product.name}
-                          </div>
-                          <div className="text-sm ">{product.brand}</div>
-                        </div>
+                        <div className="text-sm ">{product.brand}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {product.category}
-                      </div>
+                      <div className="text-sm ">{product.category}</div>
                       {product.subCategory && (
                         <div className="text-sm ">{product.subCategory}</div>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        ${product.price}
-                      </div>
+                      <div className="text-sm ">{product.price}</div>
                       {product.discount > 0 && (
                         <div className="text-xs  line-through">
-                          ${product.mrp}
+                          {product.mrp}
                         </div>
                       )}
                     </td>
@@ -256,25 +236,27 @@ export default function AdminProductsPage() {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          product.isActive
-                            ? "bg-green-100 text-green-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {product.isActive ? "Active" : "Inactive"}
-                      </span>
-                      {product.isFeatured && (
-                        <span className="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                          Featured
+                      <div className="flex flex-col gap-1">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            product.isActive
+                              ? "bg-green-100 text-green-800"
+                              : "bg-gray-100 text-gray-800"
+                          }`}
+                        >
+                          {product.isActive ? "Active" : "Inactive"}
                         </span>
-                      )}
-                      {product.isPrescriptionRequired && (
-                        <span className="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                          Rx
-                        </span>
-                      )}
+                        {product.isFeatured && (
+                          <span className="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                            Featured
+                          </span>
+                        )}
+                        {product.isPrescriptionRequired && (
+                          <span className="ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                            Rx
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
