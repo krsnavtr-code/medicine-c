@@ -104,12 +104,13 @@ const ProductList = ({ initialProducts = [] }) => {
               </div>
 
               <h3 className="mt-2 text-sm font-semibold line-clamp-2">{product.name}</h3>
-              <p className="text-lg font-bold">₹{product.price}</p>              
+              <div className='flex tiems-center justify-start gap-2'>
+                <p className="text-lg font-bold">₹{product.price}</p>
+                {product.discount > 0 && (
+                  <p className="text-sm line-through">₹{product.mrp}</p>
+                )}
+              </div>
               <p className="text-sm">{product.useFor}</p>
-
-              {product.discount > 0 && (
-                <p className="text-sm line-through">₹{product.mrp}</p>
-              )}
             </Link>
           ))}
         </div>

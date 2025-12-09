@@ -173,14 +173,14 @@ export default function ProductExpertPage() {
                 key={expert.id}
                 className=" rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow bg-[var(--container-color-in)]"
               >
-                <div className="h-64 bg-gray-200 relative">
+                {/* <div className="h-64 bg-gray-200 relative">
                   <Image
                     src={expert.image}
                     alt={expert.name}
                     fill
                     className="object-cover"
                   />
-                </div>
+                </div> */}
                 <div className="p-6">
                   <h3 className="text-xl font-bold">{expert.name}</h3>
                   <p className="text-blue-600 font-medium">{expert.title}</p>
