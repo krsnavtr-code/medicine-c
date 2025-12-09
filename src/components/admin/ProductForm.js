@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { productAPI } from '@/services/api';
-import { PRODUCT_BRANDS, PRODUCT_CATEGORIES, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES, USE_FOR_GENDER } from '@/config/productConfig';
+import { productAPI, itCategoryAPI } from '@/services/api';
+import { PRODUCT_BRANDS, PRODUCT_SUB_CATEGORIES, PRODUCT_DOSAGE_FORMS, PRODUCT_UNITS, PRODUCT_TYPES, USE_FOR_GENDER } from '@/config/productConfig';
 
 const ProductForm = ({ product: initialProduct }) => {
   const router = useRouter();
@@ -275,8 +275,42 @@ const ProductForm = ({ product: initialProduct }) => {
     }
   };
 
-  // Using imported constants from config
-  const categories = PRODUCT_CATEGORIES;
+  // State for categories
+  const [categories, setCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
+  const [categoryError, setCategoryError] = useState('');
+
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoadingCategories(true);
+        const response = await itCategoryAPI.getCategories();
+
+        // Handle the specific API response structure: { status, results, data: { categories: [...] } }
+        if (response && response.status === 'success' && response.data && response.data.categories) {
+          const categoryNames = response.data.categories.map(cat => ({
+            id: cat._id,
+            name: cat.name,
+            description: cat.description || ''
+          }));
+
+          setCategories(categoryNames);
+          setCategoryError('');
+        } else {
+          throw new Error('Unexpected response format from categories API');
+        }
+      } catch (err) {
+        console.error('Error fetching categories:', err);
+        setCategoryError('Failed to load categories. Please try again later.');
+        setCategories([]);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   const subCategories = PRODUCT_SUB_CATEGORIES;
   const brand = PRODUCT_BRANDS;
   const units = PRODUCT_UNITS;
@@ -540,20 +574,28 @@ const ProductForm = ({ product: initialProduct }) => {
               <label htmlFor="category" className="block text-sm font-medium ">
                 Category 
               </label>
-              <select
-                id="category"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              >
-                <option value="">Select a category</option>
-                {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+              <div>
+                <select
+                  id="category"
+                  name="category"
+                  value={formData.category}
+                  onChange={handleChange}
+                  disabled={loadingCategories}
+                  className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 bg-[var(--container-color)] focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md disabled:opacity-70"
+                >
+                  <option value="">
+                    {loadingCategories ? 'Loading categories...' : 'Select a category'}
                   </option>
-                ))}
-              </select>
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                {categoryError && (
+                  <p className="mt-1 text-sm text-red-600">{categoryError}</p>
+                )}
+              </div>
             </div>
 
             <div>
