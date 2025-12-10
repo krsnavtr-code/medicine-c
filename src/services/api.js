@@ -1,6 +1,3 @@
-// Use NEXT_PUBLIC_ prefix to expose the variable to the browser
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 // Helper function to get cookie by name
 function getCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -14,7 +11,7 @@ function getCookie(name) {
 async function fetchAPI(endpoint, method = 'GET', data = null) {
   // Ensure endpoint starts with a forward slash
   // const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${API_BASE_URL}/api/v1${endpoint}`;
+  const url = `/api/v1${endpoint}`;
   
   // Get the JWT token from cookies
   const token = getCookie('jwt');
@@ -143,7 +140,7 @@ export const productAPI = {
     formData.append('file', file);
 
     // Override the default fetch options for file upload
-    const url = `${API_BASE_URL}/api/v1/products/${id}/photo`;
+    const url = `/api/v1/products/${id}/photo`;
     const token = getCookie('jwt');
 
     return fetch(url, {

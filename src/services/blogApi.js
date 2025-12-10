@@ -1,11 +1,8 @@
-// Use NEXT_PUBLIC_ prefix to expose the variable to the browser
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 // Helper function to handle API requests
 async function fetchBlogAPI(endpoint, method = 'GET', data = null, isPublic = true) {
   // Ensure endpoint starts with a forward slash
   const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const url = `${API_BASE_URL}/api/v1${normalizedEndpoint}`;
+  const url = `/api/v1${normalizedEndpoint}`;
 
   const options = {
     method,

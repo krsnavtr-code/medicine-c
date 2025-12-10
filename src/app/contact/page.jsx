@@ -36,7 +36,7 @@ const Contact = () => {
       formData.append('subject', data.subject);
       formData.append('message', data.message);
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/v1/contact`, {
+      const response = await fetch(`/api/v1/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

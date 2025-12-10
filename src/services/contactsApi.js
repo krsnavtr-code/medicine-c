@@ -1,6 +1,3 @@
-// Use NEXT_PUBLIC_ prefix to expose the variable to the browser
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
 // Helper function to get cookie by name
 function getCookie(name) {
   if (typeof document === 'undefined') return null;
@@ -12,7 +9,7 @@ function getCookie(name) {
 
 // Helper function to handle API requests
 async function fetchAPI(endpoint, method = 'GET', data = null) {
-  const url = `${API_BASE_URL}/api/v1${endpoint}`;
+  const url = `/api/v1${endpoint}`;
   
   // Get the JWT token from cookies
   const token = getCookie('jwt');
