@@ -262,7 +262,7 @@ export default function BlogList() {
       <div className="mb-6">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <FiSearch className="text-gray-400" />
+            <FiSearch className="" />
           </div>
           <input
             type="text"
@@ -277,7 +277,7 @@ export default function BlogList() {
       <div className="bg-[var(--container-color-in)] text-[var(--text-color)] rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto divide-y divide-[var(--border-color)]">
-            <thead className="text-[var(--text-color-light)]">
+            <thead>
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
                   Title
@@ -298,7 +298,7 @@ export default function BlogList() {
                       onChange={(e) =>
                         handleDateChange("startDate", e.target.value)
                       }
-                      className="w-24 text-xs rounded-md border-[var(--border-color)] bg-[var(--input-bg-color)] text-[var(--text-color)]"
+                      className="w-24 text-xs rounded-md border-[var(--border-color)] bg-[var(--input-bg-color)] text-blue-500"
                       placeholder="Start date"
                     />
 
@@ -318,7 +318,7 @@ export default function BlogList() {
                           ? format(dateRange.startDate, "yyyy-MM-dd")
                           : undefined
                       }
-                      className="w-24 text-xs rounded-md border-[var(--border-color)] bg-[var(--input-bg-color)] text-[var(--text-color)]"
+                      className="w-24 text-xs rounded-md border-[var(--border-color)] bg-[var(--input-bg-color)] text-blue-500"
                       placeholder="End date"
                     />
 
@@ -348,7 +348,7 @@ export default function BlogList() {
                       <select
                         value={selectedCategory}
                         onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="block w-full pr-8 text-xs rounded-md border-[var(--border-color)] bg-[var(--container-color-in)] text-[var(--text-color)] focus:ring-1 focus:ring-[var(--accent-color)] focus:border-[var(--accent-color)] p-1 appearance-none"
+                        className="block w-full pr-8 text-xs rounded-md border-[var(--border-color)] bg-[var(--container-color-in)] text-blue-500 focus:ring-1 focus:ring-[var(--accent-color)] focus:border-[var(--accent-color)] p-1 appearance-none"
                       >
                         <option value="">All Categories</option>
                         {categories.map((cat) => (
@@ -362,7 +362,7 @@ export default function BlogList() {
                       {selectedCategory && (
                         <button
                           onClick={clearCategoryFilter}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-500 flex items-center justify-center"
+                          className="absolute right-2 top-1/2 -translate-y-1/2  hover:text-red-500 flex items-center justify-center"
                           title="Clear filter"
                         >
                           <FiX size={14} />
@@ -394,21 +394,16 @@ export default function BlogList() {
                         {blog.published ? "Published" : "Draft"}
                       </div>
                       {blog.publishedAt && (
-                        <div className="text-xs text-gray-400">
+                        <div className="text-xs ">
                           {format(new Date(blog.publishedAt), "MMM d, yyyy")}
                         </div>
                       )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex flex-wrap gap-1">
-                        {blog.tags?.map((tag, index) => (
-                          <span
-                            key={index}
-                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
-                          >
-                            {tag}
-                          </span>
-                        ))}
+                        <span className="text-xs ml-1">
+                          ({blog.tags?.length || 0})
+                        </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -443,10 +438,7 @@ export default function BlogList() {
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan="4"
-                    className="px-6 py-4 text-center text-sm "
-                  >
+                  <td colSpan="4" className="px-6 py-4 text-center text-sm ">
                     No blog posts found. Create your first blog post!
                   </td>
                 </tr>

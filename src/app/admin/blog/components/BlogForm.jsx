@@ -191,7 +191,7 @@ const Tiptap = dynamic(
                 "prose max-w-none focus:outline-none min-h-[300px] p-4 bg-[var(--container-color)]",
             },
           },
-          immediatelyRender: false, // ✅ add this
+          immediatelyRender: false, //
         });
 
         // Update editor content when content prop changes
@@ -293,6 +293,7 @@ export default function BlogForm({ blogData = null }) {
   const [imagePreview, setImagePreview] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [errors, setErrors] = useState({});
 
   // Initialize form data if editing
   useEffect(() => {
@@ -345,10 +346,11 @@ export default function BlogForm({ blogData = null }) {
 
   // Handle basic field changes
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, checked, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      // Handle checkbox inputs specifically
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
@@ -484,10 +486,44 @@ export default function BlogForm({ blogData = null }) {
     setImagePreview("");
   };
 
+  // Form validation
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.title.trim()) {
+      newErrors.title = "Title is required";
+    }
+
+    if (!formData.slug.trim()) {
+      newErrors.slug = "Slug is required";
+    } else if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(formData.slug)) {
+      newErrors.slug =
+        "Slug can only contain lowercase letters, numbers, and hyphens";
+    }
+
+    if (!formData.content.trim()) {
+      newErrors.content = "Content is required";
+    }
+
+    if (formData.categories.length === 0) {
+      newErrors.categories = "At least one category is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate form
+    if (!validateForm()) {
+      return;
+    }
+
     setIsSubmitting(true);
+    setErrors({});
 
     try {
       const url = isEditMode
@@ -506,6 +542,8 @@ export default function BlogForm({ blogData = null }) {
         credentials: "include", // Important for cookies
         body: JSON.stringify({
           ...formData,
+          // Ensure published is a boolean
+          published: formData.published === true || formData.published === "on",
           categories: categoryIds,
           meta: {
             title: formData.metaTitle,
@@ -520,12 +558,45 @@ export default function BlogForm({ blogData = null }) {
       }
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
+      if (!response.ok) {
+        const error = new Error(data.message || "An error occurred");
+        error.response = { data };
+        throw error;
+      }
 
       toast.success(isEditMode ? "Blog updated!" : "Blog created!");
       router.push("/admin/blog");
     } catch (error) {
-      toast.error(error.message || "Failed to save post");
+      console.error("Error submitting form:", error);
+      let errorMessage = `Failed to ${
+        isEditMode ? "update" : "create"
+      } blog post. `;
+
+      if (error.response) {
+        // Handle server-side validation errors
+        if (error.response.data && error.response.data.errors) {
+          const serverErrors = {};
+          error.response.data.errors.forEach((err) => {
+            // Map server field names to form field names if needed
+            const field = err.path || "general";
+            serverErrors[field] = err.msg;
+          });
+          setErrors(serverErrors);
+          errorMessage += "Please fix the errors below.";
+        } else if (error.response.data && error.response.data.message) {
+          // Handle general error message
+          setErrors({ general: error.response.data.message });
+          errorMessage += error.response.data.message;
+        } else if (error.message) {
+          setErrors({ general: error.message });
+          errorMessage += error.message;
+        }
+      } else if (error.message) {
+        setErrors({ general: error.message });
+        errorMessage += error.message;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -538,11 +609,58 @@ export default function BlogForm({ blogData = null }) {
       </div>
     );
 
+  // Render error messages
+  const renderError = (field) => {
+    if (!errors[field]) return null;
+    return <p className="mt-1 text-sm text-red-500">{errors[field]}</p>;
+  };
+
   return (
-    <div className="container mx-auto px-4">
+    <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-6">
         {isEditMode ? "Edit Blog Post" : "Create New Blog Post"}
       </h1>
+
+      {/* Display form errors */}
+      {Object.keys(errors).length > 0 && (
+        <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg
+                className="h-5 w-5 text-red-500"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium text-red-800">
+                There{" "}
+                {Object.keys(errors).length === 1
+                  ? "was an error"
+                  : `were ${Object.keys(errors).length} errors`}{" "}
+                with your submission
+              </h3>
+              <div className="mt-2 text-sm text-red-700">
+                <ul className="list-disc pl-5 space-y-1">
+                  {Object.entries(errors).map(([field, error]) => (
+                    <li key={field}>
+                      <span className="font-medium capitalize">{field}:</span>{" "}
+                      {error}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Basic Info */}
@@ -557,9 +675,12 @@ export default function BlogForm({ blogData = null }) {
               value={formData.title}
               onChange={handleChange}
               placeholder="Enter blog title"
-              className="w-full rounded-md px-3 py-2 bg-[var(--container-color)] border-[var(--border-color)] shadow-sm focus:border-[var(--border-color)] focus:ring-[var(--border-color)]"
+              className={`w-full rounded-md px-3 py-2 border ${
+                errors.title ? "border-red-500" : "border-[var(--border-color)]"
+              } shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--button-bg-color)] focus:border-transparent`}
               required
             />
+            {renderError("title")}
           </div>
 
           <div>
@@ -584,10 +705,15 @@ export default function BlogForm({ blogData = null }) {
                 placeholder="Click 'Generate from Title' or enter manually"
                 value={formData.slug || ""}
                 onChange={handleChange}
-                className="flex-1 rounded-r-md px-3 py-2 bg-[var(--container-color)] border border-[var(--border-color)]"
+                className={`flex-1 rounded-r-md px-3 py-2 bg-[var(--container-color)] border ${
+                  errors.slug
+                    ? "border-red-500"
+                    : "border-[var(--border-color)]"
+                }`}
                 required
               />
             </div>
+            {renderError("slug")}
           </div>
 
           <div>
@@ -598,7 +724,7 @@ export default function BlogForm({ blogData = null }) {
               value={formData.excerpt}
               placeholder="Enter blog excerpt"
               onChange={handleChange}
-              className="w-full rounded-md px-3 py-2 bg-[var(--container-color)] border-[var(--border-color)] shadow-sm focus:border-[var(--border-color)] focus:ring-[var(--border-color)]"
+              className="w-full rounded-md px-3 py-2 bg-[var(--container-color)] border-[var(--border-color)] shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--button-bg-color)] focus:border-transparent"
             />
           </div>
 
@@ -697,7 +823,12 @@ export default function BlogForm({ blogData = null }) {
           {/* Categories Input */}
           <div className="mb-6">
             <label className="block text-sm font-medium mb-1">
-              Categories (Select at least one)
+              Categories <span className="text-red-500">*</span>
+              {errors.categories && (
+                <span className="ml-2 text-sm text-red-500">
+                  {errors.categories}
+                </span>
+              )}
             </label>
             <div className="relative">
               <input
@@ -788,7 +919,7 @@ export default function BlogForm({ blogData = null }) {
             <input
               type="checkbox"
               name="published"
-              checked={formData.published}
+              checked={!!formData.published}
               onChange={handleChange}
               className="h-4 w-4 text-[var(--button-color)] border-[var(--border-color)] rounded cursor-pointer"
             />
@@ -813,6 +944,12 @@ export default function BlogForm({ blogData = null }) {
             placeholder="Meta title"
             className="w-full rounded-md px-3 py-2 bg-[var(--container-color)] border-[var(--border-color)] shadow-sm focus:border-[var(--border-color)] focus:ring-[var(--border-color)]"
           />
+          <label className="block text-sm font-medium mb-1">
+            Meta Description{" "}
+            <span className="text-green-500">
+              (Max length - 160 characters )
+            </span>
+          </label>
           <textarea
             name="metaDescription"
             rows="3"
