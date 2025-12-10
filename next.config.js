@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true,
+  productionBrowserSourceMaps: false,
   // ✅ Allow your LAN IP for mobile testing
   allowedDevOrigins: ['http://0.0.0.0:3000'],
   reactStrictMode: true,
@@ -16,6 +18,18 @@ const nextConfig = {
   // },
   images: {
     domains: ['the7eagles.com', 'ayushaushadhi.com', 'firstvite.com'],
+  },
+  webpack: (config, { isServer, dev }) => {
+    if (!dev && !isServer) {
+      // Enable build cache
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename]
+        }
+      };
+    }
+    return config;
   },
   async rewrites() {
     return [
