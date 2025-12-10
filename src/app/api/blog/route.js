@@ -11,12 +11,12 @@ export async function GET(request) {
     const slug = searchParams.get('slug');
 
     // Build the base URL for the API request
-    let apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/v1/blog?published=true&page=${page}&limit=${limit}&sort=${sort}`;
+    let apiUrl = `/api/v1/blog?published=true&page=${page}&limit=${limit}&sort=${sort}`;
     
     // Add optional query parameters
     if (tag) apiUrl += `&tag=${encodeURIComponent(tag)}`;
     if (search) apiUrl += `&search=${encodeURIComponent(search)}`;
-    if (slug) apiUrl = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/v1/blog/slug/${slug}`;
+    if (slug) apiUrl = `/api/v1/blog/slug/${slug}`;
 
     const response = await fetch(apiUrl, {
       credentials: 'include',
@@ -57,7 +57,7 @@ export async function POST(request) {
 
     const body = await request.json();
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/v1/blog`, {
+    const response = await fetch(`/api/v1/blog`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

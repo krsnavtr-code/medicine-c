@@ -2,8 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(`${backendUrl}/api/v1/it-categories`, {
+    const response = await fetch(`/api/v1/it-categories`, {
       headers: {
         'Content-Type': 'application/json',
       },
